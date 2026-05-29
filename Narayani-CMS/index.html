@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Narayani Enterprises – Luxury Living in Nagpur</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   THEME VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --maroon: #8B1A2B;
+  --maroon2: #A52035;
+  --maroon3: #6B1420;
+  --gold: #C9922A;
+  --gold2: #E8B040;
+  --bg: #F5F2EE;
+  --bg2: #FFFFFF;
+  --bg3: #EDE9E3;
+  --card: #FFFFFF;
+  --border: #DDD8D0;
+  --text: #1A1208;
+  --text2: #5C4A38;
+  --text3: #9C8878;
+  --nav-bg: #FFFFFF;
+  --sidebar-bg: #FFFFFF;
+  --input-bg: #F8F5F0;
+  --shadow: 0 4px 24px rgba(26,18,8,.09);
+  --shadow2: 0 8px 40px rgba(26,18,8,.13);
+  --green: #2D7A4F;
+  --orange: #D4650A;
+  --blue: #1A5FA8;
+}
+[data-theme="dark"] {
+  --bg: #0F0D0A;
+  --bg2: #181410;
+  --bg3: #201C17;
+  --card: #1E1A15;
+  --border: #2E2820;
+  --text: #F0EAE0;
+  --text2: #C4B49A;
+  --text3: #7A6858;
+  --nav-bg: #141008;
+  --sidebar-bg: #181410;
+  --input-bg: #251F18;
+  --shadow: 0 4px 24px rgba(0,0,0,.35);
+  --shadow2: 0 8px 40px rgba(0,0,0,.5);
+}
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--maroon);border-radius:3px}
+a{text-decoration:none;color:inherit}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+#main-nav{position:sticky;top:0;z-index:500;background:var(--nav-bg);border-bottom:1px solid var(--border);box-shadow:var(--shadow);transition:background .3s}
+.nav-inner{max-width:1400px;margin:auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-icon{width:42px;height:42px;background:var(--maroon);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:26px;height:26px;fill:#fff}
+.logo-txt .brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--maroon);line-height:1.1}
+.logo-txt .sub{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3)}
+.nav-links{display:flex;align-items:center;gap:.2rem}
+.nav-links a{font-size:12.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);padding:6px 10px;border-radius:4px;transition:.2s;white-space:nowrap}
+.nav-links a:hover{color:var(--maroon);background:rgba(139,26,43,.06)}
+.nav-links .sep{color:var(--border);font-size:14px;user-select:none}
+.nav-right{display:flex;align-items:center;gap:.75rem}
+.dark-toggle{background:var(--bg3);border:1.5px solid var(--border);border-radius:50px;width:52px;height:28px;cursor:pointer;position:relative;transition:.3s;flex-shrink:0}
+.dark-toggle::after{content:'☀️';position:absolute;top:2px;left:3px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;transition:.3s;line-height:22px}
+[data-theme="dark"] .dark-toggle::after{content:'🌙';left:27px}
+.nav-enquire{background:var(--maroon);color:#fff;padding:10px 20px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:.2s;white-space:nowrap}
+.nav-enquire:hover{background:var(--maroon2)}
+.nav-admin-btn{background:transparent;border:1.5px solid var(--border);color:var(--text2);padding:8px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.nav-admin-btn:hover{border-color:var(--maroon);color:var(--maroon);background:rgba(139,26,43,.06)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-direction:column;gap:5px}
+.hamburger span{width:22px;height:2px;background:var(--text);display:block;border-radius:2px;transition:.3s}
+.mob-menu{display:none;position:fixed;inset:0;background:var(--nav-bg);z-index:499;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Playfair Display',serif;font-size:28px;color:var(--text);transition:.2s}
+.mob-menu a:hover{color:var(--maroon)}
+.mob-close{position:absolute;top:20px;right:24px;font-size:28px;background:none;border:none;cursor:pointer;color:var(--text2)}
+
+/* ═══════════════════════════════════════════
+   RERA BANNER
+═══════════════════════════════════════════ */
+.rera-bar{background:var(--maroon3);color:#fff;text-align:center;padding:7px 1rem;font-size:12px;font-weight:500;letter-spacing:.5px}
+.rera-bar span{color:var(--gold2);font-weight:700}
+
+/* ═══════════════════════════════════════════
+   MAIN LAYOUT — 2 COLUMN
+═══════════════════════════════════════════ */
+.page-layout{max-width:1400px;margin:auto;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:1.5rem}
+
+/* ═══════════════════════════════════════════
+   LEFT COLUMN
+═══════════════════════════════════════════ */
+.left-col{display:flex;flex-direction:column;gap:1.25rem}
+
+/* HERO */
+.hero-block{position:relative;border-radius:14px;overflow:hidden;height:320px}
+.hero-block img{width:100%;height:100%;object-fit:cover}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,6,2,.82) 0%,rgba(10,6,2,.4) 60%,transparent 100%)}
+.hero-text{position:absolute;bottom:0;left:0;right:0;padding:2rem 2rem 1.75rem}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.85rem}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,46px);font-weight:800;color:#fff;line-height:1.08;text-shadow:0 2px 20px rgba(0,0,0,.4);margin-bottom:.6rem}
+.hero-sub{color:rgba(255,255,255,.8);font-size:13.5px;margin-bottom:1.1rem;font-weight:400}
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn-hero{background:var(--maroon);color:#fff;padding:11px 26px;border-radius:6px;font-size:12.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border:none;cursor:pointer;transition:.2s}
+.btn-hero:hover{background:var(--maroon2);transform:translateY(-1px)}
+.btn-hero-ghost{background:rgba(255,255,255,.15);backdrop-filter:blur(6px);color:#fff;padding:11px 22px;border-radius:6px;font-size:12.5px;font-weight:600;border:1.5px solid rgba(255,255,255,.35);cursor:pointer;transition:.2s}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.25)}
+.hero-stats-row{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;gap:8px}
+.hero-stat-pill{background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;text-align:center;color:#fff}
+.hero-stat-pill .big{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1}
+.hero-stat-pill .sml{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.75;font-weight:600}
+
+/* SEARCH BAR */
+.search-block{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;box-shadow:var(--shadow)}
+.search-row{display:flex;gap:.75rem;align-items:center}
+.search-input-wrap{flex:1;position:relative}
+.search-input-wrap input{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 14px 10px 40px;font-size:13.5px;color:var(--text);font-family:'Outfit',sans-serif;outline:none;transition:.2s}
+.search-input-wrap input:focus{border-color:var(--maroon);box-shadow:0 0 0 3px rgba(139,26,43,.1)}
+.search-input-wrap input::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
+.search-clear-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;display:none}
+.filter-pills{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.85rem}
+.fpill{background:var(--input-bg);border:1.5px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:50px;font-size:11.5px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.fpill:hover,.fpill.active{background:var(--maroon);color:#fff;border-color:var(--maroon)}
+.adv-toggle{background:none;border:1.5px solid var(--maroon);color:var(--maroon);padding:9px 15px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;letter-spacing:.5px}
+.adv-toggle:hover{background:var(--maroon);color:#fff}
+.adv-filters{display:none;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.75rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.adv-filters.open{display:grid}
+.af-group label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:.35rem}
+.af-select{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text);font-size:12.5px;font-family:'Outfit',sans-serif;outline:none;cursor:pointer;transition:.2s}
+.af-select:focus{border-color:var(--maroon)}
+.results-info{display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;flex-wrap:wrap;gap:.5rem}
+.results-count{font-size:12.5px;color:var(--text2)}
+.results-count strong{color:var(--maroon)}
+.clear-btn{background:none;border:none;font-size:11.5px;color:var(--text3);cursor:pointer;text-decoration:underline}
+.clear-btn:hover{color:var(--maroon)}
+
+/* PROJECTS SECTION */
+.projects-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)}
+.sec-title span{color:var(--maroon)}
+.view-all-btn{font-size:12px;font-weight:600;color:var(--maroon);background:rgba(139,26,43,.08);border:1px solid rgba(139,26,43,.2);padding:6px 14px;border-radius:50px;cursor:pointer;transition:.2s}
+.view-all-btn:hover{background:var(--maroon);color:#fff}
+
+/* PROJECT CARDS GRID */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.proj-card{background:var(--card);border-radius:12px;overflow:hidden;border:1.5px solid var(--border);transition:.3s;cursor:pointer;box-shadow:var(--shadow)}
+.proj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:rgba(139,26,43,.3)}
+.proj-card-img{position:relative;height:160px;overflow:hidden;background:var(--bg3)}
+.proj-card-img img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.proj-card:hover .proj-card-img img{transform:scale(1.07)}
+.proj-num{position:absolute;top:10px;left:10px;width:26px;height:26px;background:var(--maroon);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif}
+.proj-badge{position:absolute;bottom:10px;left:10px;padding:4px 10px;border-radius:50px;font-size:9.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.pbadge-limited{background:#D4650A;color:#fff;animation:blink-border 2s infinite}
+.pbadge-booking{background:#2D7A4F;color:#fff}
+.pbadge-ready{background:#1A5FA8;color:#fff}
+.pbadge-sold{background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(3px)}
+.pbadge-ongoing{background:#7B5EA7;color:#fff}
+@keyframes blink-border{0%,100%{box-shadow:0 0 0 0 rgba(212,101,10,.5)}50%{box-shadow:0 0 0 5px rgba(212,101,10,0)}}
+.sold-stamp{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+.sold-stamp span{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;border:2px solid rgba(255,255,255,.5);padding:6px 16px;border-radius:4px;transform:rotate(-15deg);letter-spacing:2px}
+.proj-body{padding:1rem}
+.proj-location{font-size:11px;font-weight:600;color:var(--maroon);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.3rem}
+.proj-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:.6rem;line-height:1.2}
+.proj-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
+.pm-chip{background:var(--bg3);color:var(--text2);font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:50px;display:flex;align-items:center;gap:4px;border:1px solid var(--border)}
+.proj-divider{height:1px;background:var(--border);margin:.6rem 0}
+.proj-footer{display:flex;align-items:center;justify-content:space-between}
+.proj-price{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--maroon)}
+.proj-price small{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text3);font-weight:400;display:block;margin-top:-2px}
+.proj-enq-btn{background:transparent;border:1.5px solid var(--maroon);color:var(--maroon);padding:6px 14px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.5px}
+.proj-enq-btn:hover{background:var(--maroon);color:#fff}
+.no-projects{text-align:center;padding:3rem;color:var(--text3);grid-column:1/-1}
+.no-projects p{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:.4rem;color:var(--text2)}
+.loading-grid{text-align:center;padding:3rem;color:var(--text3);grid-column:1/-1}
+.spinner{display:inline-block;width:24px;height:24px;border:2px solid rgba(139,26,43,.2);border-top-color:var(--maroon);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:.75rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* EMI CALCULATOR */
+.emi-block{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.5rem;box-shadow:var(--shadow)}
+.emi-block h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.emi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.emi-group label{font-size:10.5px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;display:block;margin-bottom:.35rem}
+.emi-input{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:7px;padding:9px 11px;font-size:13.5px;color:var(--text);font-family:'Outfit',sans-serif;outline:none;transition:.2s}
+.emi-input:focus{border-color:var(--maroon)}
+.emi-result{grid-column:1/-1;background:linear-gradient(135deg,var(--maroon),var(--maroon2));border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-top:.25rem}
+.emi-result-label{color:rgba(255,255,255,.75);font-size:12px;font-weight:500}
+.emi-result-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#fff}
+.emi-calc-btn{grid-column:1/-1;background:var(--maroon);color:#fff;border:none;border-radius:8px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;font-family:'Outfit',sans-serif;letter-spacing:.5px}
+.emi-calc-btn:hover{background:var(--maroon2)}
+
+/* AMENITIES ROW */
+.amenities-row{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;box-shadow:var(--shadow)}
+.amenities-row h3{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);margin-bottom:1rem}
+.amenities-grid-pub{display:flex;gap:1rem;flex-wrap:wrap}
+.amen-item{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:70px}
+.amen-icon{width:48px;height:48px;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1.5px solid var(--border);transition:.2s}
+.amen-item:hover .amen-icon{background:rgba(139,26,43,.08);border-color:var(--maroon)}
+.amen-label{font-size:10.5px;font-weight:600;color:var(--text2);text-align:center;line-height:1.25}
+
+/* ═══════════════════════════════════════════
+   RIGHT SIDEBAR
+═══════════════════════════════════════════ */
+.right-col{display:flex;flex-direction:column;gap:1.25rem}
+
+/* BUILDER CARD */
+.builder-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.builder-header{background:var(--maroon3);padding:12px 16px;display:flex;align-items:center;justify-content:center}
+.builder-header span{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.builder-header strong{color:var(--gold2)}
+.builder-body{padding:1.25rem}
+.builder-profile{display:flex;gap:12px;margin-bottom:1rem}
+.builder-photo{width:72px;height:72px;border-radius:10px;object-fit:cover;border:2px solid var(--border);flex-shrink:0;background:var(--bg3)}
+.builder-info h4{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);margin-bottom:.2rem}
+.builder-info p{font-size:12px;color:var(--text2);line-height:1.6}
+.builder-points{display:flex;flex-direction:column;gap:.5rem}
+.bp-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text2)}
+.bp-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:4px}
+
+/* SIDEBAR AMENITIES */
+.sidebar-amenities{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem;box-shadow:var(--shadow)}
+.sidebar-amenities h4{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.sb-amen-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+.sb-amen-item{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:default}
+.sb-amen-icon{width:42px;height:42px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid var(--border)}
+.sb-amen-label{font-size:9px;font-weight:600;color:var(--text2);text-align:center;line-height:1.2}
+
+/* CONTACT FORM */
+.contact-form-card{background:var(--maroon3);border-radius:14px;padding:1.5rem;box-shadow:var(--shadow2)}
+.contact-form-card h4{font-family:'Playfair Display',serif;font-size:17px;color:#fff;margin-bottom:1.1rem}
+.cf-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.65rem}
+.cf-full{grid-column:1/-1}
+.cf-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:9px 11px;font-size:12.5px;color:#fff;font-family:'Outfit',sans-serif;outline:none;transition:.2s}
+.cf-input::placeholder{color:rgba(255,255,255,.5)}
+.cf-input:focus{border-color:var(--gold2);background:rgba(255,255,255,.15)}
+.cf-select{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:9px 11px;font-size:12.5px;color:rgba(255,255,255,.75);font-family:'Outfit',sans-serif;outline:none}
+.cf-select option{background:var(--maroon3);color:#fff}
+.cf-submit{width:100%;background:var(--gold);color:var(--text);padding:11px;border:none;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;transition:.2s;font-family:'Outfit',sans-serif;letter-spacing:.5px;margin-top:.25rem}
+.cf-submit:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* OFFICIAL ADDRESS */
+.address-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem;box-shadow:var(--shadow)}
+.address-card h4{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--maroon);margin-bottom:1rem}
+.addr-items{display:flex;flex-direction:column;gap:.85rem}
+.addr-item{display:flex;gap:10px;align-items:flex-start}
+.addr-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.addr-text{font-size:12.5px;color:var(--text2);line-height:1.55}
+.addr-text a{color:var(--maroon);font-weight:600}
+.addr-text a:hover{text-decoration:underline}
+
+/* TESTIMONIALS */
+.testimonials-block{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem;box-shadow:var(--shadow)}
+.testimonials-block h4{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.testi-item{background:var(--bg3);border-radius:10px;padding:1rem;margin-bottom:.75rem;border:1px solid var(--border)}
+.testi-item:last-child{margin-bottom:0}
+.testi-stars{color:#F59E0B;font-size:13px;margin-bottom:.4rem}
+.testi-text{font-size:12.5px;color:var(--text2);line-height:1.6;font-style:italic;margin-bottom:.6rem}
+.testi-author{display:flex;align-items:center;gap:8px}
+.testi-avatar{width:32px;height:32px;border-radius:50%;background:var(--maroon);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
+.testi-name{font-size:12px;font-weight:700;color:var(--text)}
+.testi-loc{font-size:11px;color:var(--text3)}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{background:var(--maroon3);margin-top:2rem;padding:2.5rem 1.5rem 1.25rem}
+.footer-inner{max-width:1400px;margin:auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2rem}
+.footer-brand .fname{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin:.75rem 0 .6rem}
+.footer-brand p{font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.7;max-width:240px}
+.footer-col h5{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);margin-bottom:1rem}
+.footer-col a,.footer-col p{font-size:12.5px;color:rgba(255,255,255,.45);display:block;margin-bottom:.6rem;transition:.2s}
+.footer-col a:hover{color:var(--gold2)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.footer-bottom p{font-size:11.5px;color:rgba(255,255,255,.35)}
+.footer-bottom span{color:var(--gold2)}
+
+/* WHATSAPP */
+#wa-float{position:fixed;bottom:28px;right:28px;z-index:400;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);cursor:pointer;transition:.25s;text-decoration:none}
+#wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.55)}
+#wa-float svg{width:28px;height:28px;fill:#fff}
+.wa-tip{position:absolute;right:66px;background:var(--maroon3);color:#fff;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:500;white-space:nowrap;opacity:0;transition:.2s;pointer-events:none}
+#wa-float:hover .wa-tip{opacity:1}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--maroon3);color:#fff;padding:11px 24px;border-radius:9px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:.3s;pointer-events:none;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.toast.show{opacity:1}
+
+/* ═══════════════════════════════════════════
+   ADMIN
+═══════════════════════════════════════════ */
+#admin-overlay{display:none;position:fixed;inset:0;z-index:800;background:var(--bg);overflow-y:auto}
+#admin-login-modal{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center}
+#admin-login-modal.open{display:flex}
+.login-card{background:var(--card);border-radius:16px;padding:2.5rem;width:360px;max-width:92vw;box-shadow:0 24px 64px rgba(0,0,0,.35)}
+.login-card .lc-icon{width:52px;height:52px;background:var(--maroon);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 1rem}
+.login-card h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);text-align:center;margin-bottom:.25rem}
+.login-card p{font-size:12px;color:var(--text3);text-align:center;margin-bottom:1.5rem}
+.login-err{background:rgba(139,26,43,.08);border:1px solid rgba(139,26,43,.25);color:var(--maroon);padding:9px 13px;border-radius:7px;font-size:12.5px;margin-bottom:1rem;display:none}
+.lg-group{margin-bottom:1rem}
+.lg-label{display:block;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem}
+.lg-input{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13.5px;font-family:'Outfit',sans-serif;outline:none;transition:.2s}
+.lg-input:focus{border-color:var(--maroon)}
+.btn-login{width:100%;background:var(--maroon);color:#fff;border:none;border-radius:8px;padding:12px;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:.5rem;transition:.2s;font-family:'Outfit',sans-serif}
+.btn-login:hover{background:var(--maroon2)}
+.btn-back-site{width:100%;background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;padding:9px;margin-top:.25rem}
+.adm-nav{background:var(--nav-bg);border-bottom:1.5px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+.adm-nav-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text)}
+.adm-body{max-width:1100px;margin:auto;padding:2rem 1.5rem}
+.adm-tabs{display:flex;gap:.4rem;margin-bottom:2rem;border-bottom:2px solid var(--border)}
+.adm-tab{background:none;border:none;color:var(--text3);padding:9px 20px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s;font-family:'Outfit',sans-serif}
+.adm-tab.active{color:var(--maroon);border-bottom-color:var(--maroon)}
+.adm-section{display:none}
+.adm-section.active{display:block}
+.adm-card{background:var(--card);border:1.5px solid var(--border);border-radius:13px;padding:1.75rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+.adm-card h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);margin-bottom:1.5rem;padding-bottom:.9rem;border-bottom:1px solid var(--border)}
+.adm-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.adm-form-grid .full{grid-column:1/-1}
+.adm-label{display:block;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem}
+.adm-input{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'Outfit',sans-serif;outline:none;transition:.2s}
+.adm-input:focus{border-color:var(--maroon)}
+.btn-adm-save{background:var(--maroon);color:#fff;padding:10px 24px;border-radius:7px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border:none;cursor:pointer;transition:.2s}
+.btn-adm-save:hover{background:var(--maroon2)}
+.btn-adm-del{background:rgba(139,26,43,.07);border:1px solid rgba(139,26,43,.25);color:var(--maroon);padding:7px 14px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-adm-del:hover{background:rgba(139,26,43,.15)}
+.btn-adm-edit{background:rgba(201,146,42,.1);border:1px solid rgba(201,146,42,.3);color:var(--gold);padding:7px 14px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-adm-edit:hover{background:rgba(201,146,42,.2)}
+.adm-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.adm-table th{text-align:left;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);padding:9px 13px;border-bottom:1.5px solid var(--border)}
+.adm-table td{padding:11px 13px;border-bottom:1px solid var(--bg3);color:var(--text2);vertical-align:middle}
+.adm-table tr:hover td{background:rgba(139,26,43,.03)}
+.adm-stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.adm-stat{background:var(--card);border:1.5px solid var(--border);border-radius:11px;padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
+.adm-stat .big{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--maroon)}
+.adm-stat .lbl{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.firebase-note{background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.25);border-radius:9px;padding:.9rem 1.2rem;font-size:12.5px;color:var(--text2);margin-bottom:1.5rem}
+.firebase-note strong{color:var(--gold);display:block;margin-bottom:3px}
+.firebase-note code{background:rgba(0,0,0,.07);padding:2px 7px;border-radius:4px;font-size:11.5px}
+
+
+/* SIDEBAR STICKY */
+.sidebar-sticky{display:flex;flex-direction:column;gap:1.25rem}
+
+/* QUICK CONTACT */
+.quick-contact-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem;box-shadow:var(--shadow);text-align:center}
+.qc-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:.85rem}
+.qc-btn{display:block;width:100%;padding:11px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:.6rem;transition:.2s;letter-spacing:.5px}
+.qc-btn:last-child{margin-bottom:0}
+.qc-call{background:var(--maroon);color:#fff;border:none}
+.qc-call:hover{background:var(--maroon2);transform:translateY(-1px)}
+.qc-wa{background:#25D366;color:#fff}
+.qc-wa:hover{background:#1ea853;transform:translateY(-1px)}
+
+/* ADMIN SIDEBAR BTN */
+.admin-sidebar-btn{text-align:center;padding:.25rem 0 .5rem}
+.admin-sidebar-btn button{background:none;border:1.5px dashed var(--border);color:var(--text3);padding:10px 20px;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;transition:.2s;width:100%}
+.admin-sidebar-btn button:hover{border-color:var(--maroon);color:var(--maroon);background:rgba(139,26,43,.04)}
+
+.right-col{display:flex;flex-direction:column;gap:1.25rem;width:100%}
+
+
+/* ══ BOTTOM FULL-WIDTH SECTIONS ══ */
+.bottom-sections{max-width:1400px;margin:0 auto;padding:0 1.5rem 2rem;display:flex;flex-direction:column;gap:1.5rem}
+.bottom-row-2col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+.bottom-full{width:100%}
+.bottom-row-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;align-items:start}
+@media(max-width:900px){.bottom-row-2col{grid-template-columns:1fr}.bottom-row-3col{grid-template-columns:1fr}}
+
+
+/* ══ REVIEW SECTION ══ */
+.review-section-wrap{background:var(--bg2);border-top:2px solid var(--border);padding:70px 0}
+.review-section-inner{max-width:1400px;margin:auto;padding:0 1.5rem}
+.review-sec-head{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.rev-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:var(--maroon);margin-bottom:.6rem}
+.rev-main-title{font-family:'Playfair Display',serif;font-size:clamp(26px,3vw,38px);color:var(--text);margin-bottom:.5rem}
+.rev-sub{font-size:14px;color:var(--text3)}
+.rev-overall-box{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.5rem 2rem;text-align:center;min-width:200px;box-shadow:var(--shadow)}
+.rev-big-score{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:var(--maroon);line-height:1}
+.rev-big-stars{color:#F59E0B;font-size:22px;margin:.25rem 0}
+.rev-big-count{font-size:12px;color:var(--text3);margin-bottom:1rem}
+.rev-breakdown{display:flex;flex-direction:column;gap:5px}
+.rev-bar-row{display:flex;align-items:center;gap:8px;font-size:11px}
+.rev-bar-lbl{color:var(--text3);width:14px;text-align:right;flex-shrink:0}
+.rev-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.rev-bar-fill{height:100%;background:#F59E0B;border-radius:3px;transition:.5s}
+.rev-bar-count{color:var(--text3);width:16px;text-align:left;flex-shrink:0}
+
+/* REVIEWS GRID */
+.all-reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-bottom:3rem}
+.rev-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;box-shadow:var(--shadow);transition:.3s;position:relative}
+.rev-card:hover{border-color:rgba(201,146,42,.35);transform:translateY(-2px);box-shadow:var(--shadow2)}
+.rev-card-stars{color:#F59E0B;font-size:15px;margin-bottom:.5rem}
+.rev-card-text{font-size:13.5px;color:var(--text2);line-height:1.7;font-style:italic;margin-bottom:.85rem}
+.rev-card-author{display:flex;align-items:center;gap:10px}
+.rev-card-avatar{width:36px;height:36px;border-radius:50%;background:var(--maroon);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;flex-shrink:0}
+.rev-card-name{font-size:13px;font-weight:700;color:var(--text)}
+.rev-card-meta{font-size:11px;color:var(--text3)}
+.rev-card-project{position:absolute;top:12px;right:12px;background:rgba(139,26,43,.08);color:var(--maroon);font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:50px;letter-spacing:.5px;border:1px solid rgba(139,26,43,.15)}
+.rev-card-date{font-size:10.5px;color:var(--text3);margin-top:4px}
+.rev-verified{display:inline-flex;align-items:center;gap:4px;background:rgba(45,122,79,.1);color:#2D7A4F;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;margin-top:6px;border:1px solid rgba(45,122,79,.2)}
+
+/* WRITE REVIEW FORM */
+.write-review-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:2rem 2.5rem;box-shadow:var(--shadow2)}
+.write-rev-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:.35rem}
+.write-rev-sub{font-size:13.5px;color:var(--text3);margin-bottom:1.75rem}
+.write-review-form{display:flex;flex-direction:column;gap:1rem}
+.wrf-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.wrf-group{display:flex;flex-direction:column;gap:.35rem}
+.wrf-group label{font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+.wrf-input{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-size:13.5px;color:var(--text);font-family:'Outfit',sans-serif;outline:none;transition:.2s}
+.wrf-input:focus{border-color:var(--maroon);box-shadow:0 0 0 3px rgba(139,26,43,.08)}
+.wrf-full{grid-column:1/-1}
+.star-picker{display:flex;align-items:center;gap:4px;margin-top:.25rem}
+.star-pick{font-size:32px;color:var(--border);cursor:pointer;transition:.15s;line-height:1;user-select:none}
+.star-pick.active,.star-pick.hover{color:#F59E0B}
+.star-pick-label{font-size:13px;color:var(--text3);margin-left:8px;font-weight:500}
+.rev-submit-btn{background:var(--maroon);color:#fff;padding:13px 34px;border-radius:8px;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:.2s;letter-spacing:.5px;font-family:'Outfit',sans-serif}
+.rev-submit-btn:hover{background:var(--maroon2);transform:translateY(-1px)}
+.no-reviews{text-align:center;padding:2.5rem;color:var(--text3);grid-column:1/-1}
+.no-reviews p{font-size:16px;font-family:'Playfair Display',serif;color:var(--text2);margin-bottom:.35rem}
+@media(max-width:768px){.wrf-row{grid-template-columns:1fr}.rev-sec-head{flex-direction:column}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.page-layout{grid-template-columns:1fr}.right-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}.right-col>*{}.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:780px){.nav-links,.nav-enquire{display:none}.hamburger{display:flex}.projects-grid{grid-template-columns:1fr 1fr}.right-col{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.adm-stat-cards{grid-template-columns:1fr 1fr}.adm-form-grid{grid-template-columns:1fr}.hero-stats-row{display:none}}
+@media(max-width:500px){.projects-grid{grid-template-columns:1fr}.cf-grid{grid-template-columns:1fr}.emi-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="#" class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/></svg>
+      </div>
+      <div class="logo-txt">
+        <div class="brand">NARAYANI</div>
+        <div class="sub">Enterprises</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#hero">Home</a><span class="sep">|</span>
+      <a href="#about-section">About Us</a><span class="sep">|</span>
+      <a href="#projects-section">Current Projects</a><span class="sep">|</span>
+      <a href="#completed-section">Completed</a><span class="sep">|</span>
+      <a href="#amenities-section">Amenities</a><span class="sep">|</span>
+      <a href="#contact-section">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode" onclick="toggleDark()"></button>
+      <button class="nav-admin-btn" onclick="openAdmin()" title="Admin Login">🔐 Admin</button>
+      <button class="nav-enquire" onclick="scrollToContact()">Enquire Now</button>
+    </div>
+    <button class="hamburger" id="ham-btn"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mob-menu">
+  <button class="mob-close" id="mob-close">✕</button>
+  <a href="#hero" onclick="closeMob()">Home</a>
+  <a href="#about-section" onclick="closeMob()">About Us</a>
+  <a href="#projects-section" onclick="closeMob()">Projects</a>
+  <a href="#amenities-section" onclick="closeMob()">Amenities</a>
+  <a href="#contact-section" onclick="closeMob()">Contact</a>
+  <a href="#" onclick="closeMob();openAdmin()" style="color:var(--maroon);font-size:20px">🔐 Admin Panel</a>
+</div>
+
+<!-- RERA -->
+<div class="rera-bar">🏛️ MahaRERA Registration No. <span>94179108376</span> &nbsp;|&nbsp; RERA Certified Builder &nbsp;|&nbsp; All Projects Legally Approved</div>
+
+<!-- MAIN LAYOUT -->
+<div class="page-layout" id="hero">
+
+  <!-- ══════ LEFT COLUMN ══════ -->
+  <div class="left-col">
+
+    <!-- HERO BLOCK -->
+    <div class="hero-block">
+      <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=85" alt="Luxury Living in Nagpur"/>
+      <div class="hero-overlay"></div>
+      <div class="hero-stats-row">
+        <div class="hero-stat-pill"><div class="big">16+</div><div class="sml">Years</div></div>
+        <div class="hero-stat-pill"><div class="big">500+</div><div class="sml">Families</div></div>
+        <div class="hero-stat-pill"><div class="big">15+</div><div class="sml">Projects</div></div>
+      </div>
+      <div class="hero-text">
+        <div class="hero-badge">⭐ Nagpur's Trusted Builder</div>
+        <h1 class="hero-h1">LUXURY LIVING<br>IN NAGPUR.</h1>
+        <p class="hero-sub">Premium 3-BHK Apartments &nbsp;|&nbsp; Built with Trust &nbsp;|&nbsp; Delivered with Quality</p>
+        <div class="hero-btns">
+          <button class="btn-hero" onclick="document.getElementById('projects-section').scrollIntoView({behavior:'smooth'})">Explore Projects</button>
+          <a href="tel:+919028351401" class="btn-hero-ghost">📞 Call Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-block" id="search-block">
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Search by name, location, BHK type, price..." oninput="onSearch(this)"/>
+          <button class="search-clear-btn" id="search-clear" onclick="clearSearch()">✕</button>
+        </div>
+        <button class="adv-toggle" id="adv-toggle" onclick="toggleAdv()">⚙️ Filters</button>
+      </div>
+      <div class="filter-pills">
+        <button class="fpill active" data-f="all">All</button>
+        <button class="fpill" data-f="booking_open">✅ Booking Open</button>
+        <button class="fpill" data-f="ongoing">🔵 Ongoing</button>
+        <button class="fpill" data-f="ready_to_move">🏠 Ready to Move</button>
+        <button class="fpill" data-f="limited">⚡ Limited Flats</button>
+        <button class="fpill" data-f="sold_out">🔴 Sold Out</button>
+      </div>
+      <div class="adv-filters" id="adv-filters">
+        <div class="af-group"><label>📍 Location</label>
+          <select class="af-select" id="af-loc" onchange="applyFilters()">
+            <option value="">All Locations</option>
+            <option>Hanuman Nagar</option><option>Ram Nagar</option><option>Ayodhya Nagar</option><option>Nandanvan</option><option>Vankatesh Nagar</option>
+          </select>
+        </div>
+        <div class="af-group"><label>🏠 BHK Type</label>
+          <select class="af-select" id="af-bhk" onchange="applyFilters()">
+            <option value="">All Types</option>
+            <option value="1 BHK">1 BHK</option><option value="2 BHK">2 BHK</option><option value="3 BHK">3 BHK</option>
+          </select>
+        </div>
+        <div class="af-group"><label>💰 Budget</label>
+          <select class="af-select" id="af-budget" onchange="applyFilters()">
+            <option value="">Any Budget</option>
+            <option value="u50">Under ₹50L</option><option value="50-80">₹50–80L</option><option value="80-120">₹80L–1.2Cr</option><option value="a120">Above ₹1.2Cr</option>
+          </select>
+        </div>
+        <div class="af-group"><label>📐 Size</label>
+          <select class="af-select" id="af-size" onchange="applyFilters()">
+            <option value="">Any Size</option>
+            <option value="u1000">Under 1000 sq.ft</option><option value="1000-1300">1000–1300 sq.ft</option><option value="1300-1600">1300–1600 sq.ft</option><option value="a1600">Above 1600 sq.ft</option>
+          </select>
+        </div>
+        <div class="af-group"><label>🔃 Sort By</label>
+          <select class="af-select" id="af-sort" onchange="applyFilters()">
+            <option value="">Default</option>
+            <option value="pasc">Price ↑</option><option value="pdesc">Price ↓</option><option value="nasc">Name A–Z</option>
+          </select>
+        </div>
+      </div>
+      <div class="results-info" id="results-info" style="display:none">
+        <span class="results-count" id="results-count"><strong>–</strong> results</span>
+        <button class="clear-btn" onclick="clearAll()">Clear all</button>
+      </div>
+    </div>
+
+    <!-- CURRENT PROJECTS -->
+    <div id="projects-section">
+      <div class="projects-section-head">
+        <h2 class="sec-title">Our <span>Premier</span> Developments</h2>
+        <button class="view-all-btn" onclick="clearAll()">View All →</button>
+      </div>
+      <div class="projects-grid" id="projects-grid">
+        <div class="loading-grid"><div class="spinner"></div><br>Loading projects...</div>
+      </div>
+    </div>
+
+    <!-- COMPLETED PROJECTS -->
+    <div id="completed-section">
+      <div class="projects-section-head" style="margin-top:.5rem">
+        <h2 class="sec-title">✅ <span>Completed</span> Projects</h2>
+      </div>
+      <div class="projects-grid" id="completed-grid">
+        <div class="loading-grid"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- EMI CALCULATOR -->
+    <div class="emi-block">
+      <h3>🧮 EMI Calculator</h3>
+      <div class="emi-grid">
+        <div class="emi-group"><label>Loan Amount (₹)</label><input class="emi-input" id="emi-loan" type="number" placeholder="5000000" value="5000000"/></div>
+        <div class="emi-group"><label>Interest Rate (%)</label><input class="emi-input" id="emi-rate" type="number" placeholder="8.5" value="8.5" step="0.1"/></div>
+        <div class="emi-group"><label>Tenure (Years)</label><input class="emi-input" id="emi-years" type="number" placeholder="20" value="20"/></div>
+        <div class="emi-group"><label>Down Payment (₹)</label><input class="emi-input" id="emi-down" type="number" placeholder="500000" value="500000"/></div>
+        <button class="emi-calc-btn" onclick="calcEMI()">Calculate EMI</button>
+        <div class="emi-result" id="emi-result">
+          <div><div class="emi-result-label">Monthly EMI</div><div class="emi-result-val" id="emi-val">₹38,174</div></div>
+          <div><div class="emi-result-label">Total Interest</div><div class="emi-result-val" id="emi-int">₹41.6L</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AMENITIES (PUBLIC) -->
+    <div class="amenities-row" id="amenities-section">
+      <h3 style="font-family:'Playfair Display',serif;font-size:19px;margin-bottom:1rem">🏆 Unmatched Amenities</h3>
+      <div class="amenities-grid-pub">
+        <div class="amen-item"><div class="amen-icon">🔒</div><div class="amen-label">24/7 Security</div></div>
+        <div class="amen-item"><div class="amen-icon">🛗</div><div class="amen-label">High-Speed Lift</div></div>
+        <div class="amen-item"><div class="amen-icon">🚗</div><div class="amen-label">Designated Parking</div></div>
+        <div class="amen-item"><div class="amen-icon">🧒</div><div class="amen-label">Children's Play Area</div></div>
+        <div class="amen-item"><div class="amen-icon">🕉️</div><div class="amen-label">Vastu Compliant</div></div>
+        <div class="amen-item"><div class="amen-icon">⚡</div><div class="amen-label">Power Backup</div></div>
+        <div class="amen-item"><div class="amen-icon">📡</div><div class="amen-label">CCTV Cameras</div></div>
+        <div class="amen-item"><div class="amen-icon">🌿</div><div class="amen-label">Landscaped Garden</div></div>
+        <div class="amen-item"><div class="amen-icon">🏊</div><div class="amen-label">Clubhouse</div></div>
+        <div class="amen-item"><div class="amen-icon">♨️</div><div class="amen-label">Solar Water</div></div>
+      </div>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <div id="about-section" style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.75rem;box-shadow:var(--shadow)">
+      <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--text);margin-bottom:.75rem">About <span style="color:var(--maroon)">Narayani Enterprises</span></h2>
+      <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:1rem">Founded in 2008 by <strong>Devendra Wasnik</strong>, Narayani Enterprises has grown to become one of Nagpur's most trusted real estate builders. With over 16 years of experience and 500+ happy families, we specialize in delivering premium 2 & 3 BHK apartments across prime localities in Nagpur.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center;margin-top:1.25rem">
+        <div style="background:var(--bg3);border-radius:10px;padding:1rem;border:1px solid var(--border)"><div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--maroon);font-weight:700">16+</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600">Years</div></div>
+        <div style="background:var(--bg3);border-radius:10px;padding:1rem;border:1px solid var(--border)"><div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--maroon);font-weight:700">500+</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600">Families</div></div>
+        <div style="background:var(--bg3);border-radius:10px;padding:1rem;border:1px solid var(--border)"><div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--maroon);font-weight:700">15+</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600">Projects</div></div>
+        <div style="background:var(--bg3);border-radius:10px;padding:1rem;border:1px solid var(--border)"><div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--maroon);font-weight:700">10+</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600">Localities</div></div>
+      </div>
+    </div>
+
+  </div><!-- end left-col -->
+
+  </div><!-- end left-col -->
+</div><!-- end page-layout -->
+
+<!-- ══════ BOTTOM FULL-WIDTH SECTIONS ══════ -->
+<div class="bottom-sections">
+
+  <!-- ROW 1: Builder Info + Contact Form -->
+  <div class="bottom-row-2col">
+
+    <div class="builder-card" id="about-sidebar">
+      <div class="builder-header"><span>BUILDING TRUST SINCE <strong>2008</strong></span></div>
+      <div class="builder-body">
+        <div class="builder-profile">
+          <img class="builder-photo" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=85" alt="Devendra Wasnik"/>
+          <div class="builder-info">
+            <h4>Vision by Devendra Wasnik</h4>
+            <p>Narayani Enterprises is a luxury real estate builder & developer based in Nagpur, principally owned by Devendra Wasnik. Since 2008 we have delivered 500+ happy homes across Nagpur with quality, trust and transparency.</p>
+          </div>
+        </div>
+        <div class="builder-points">
+          <div class="bp-item"><div class="bp-dot"></div>Devendra Wasnik's vision since 2008</div>
+          <div class="bp-item"><div class="bp-dot"></div>Premium developments near KDK College, Nandanvan, Nagpur – 440024</div>
+          <div class="bp-item"><div class="bp-dot"></div>MahaRERA certified — all projects legally approved</div>
+          <div class="bp-item"><div class="bp-dot"></div>Bank home loan assistance from all major banks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-card" id="contact-section">
+      <h4>🏠 Send Enquiry</h4>
+      <div class="cf-grid">
+        <div><input class="cf-input" id="cf-name" type="text" placeholder="NAME"/></div>
+        <div><input class="cf-input" id="cf-mobile" type="tel" placeholder="MOBILE"/></div>
+        <div class="cf-full"><input class="cf-input" id="cf-email" type="email" placeholder="EMAIL"/></div>
+        <div class="cf-full">
+          <select class="cf-select cf-input" id="cf-project">
+            <option value="">INTERESTED PROJECT</option>
+            <option>DEV-ARCH 2 – Hanuman Nagar</option>
+            <option>DEV-ARCH 3 – Ram Nagar</option>
+            <option>DEV-ARCH 4 – Ayodhya Nagar</option>
+            <option>2 BHK Flat</option>
+            <option>3 BHK Flat</option>
+            <option>General Enquiry</option>
+          </select>
+        </div>
+        <div class="cf-full"><textarea class="cf-input" id="cf-msg" rows="3" placeholder="MESSAGE" style="resize:vertical"></textarea></div>
+      </div>
+      <button class="cf-submit" onclick="submitEnquiry()">SEND ENQUIRY →</button>
+    </div>
+
+  </div>
+
+  <!-- ROW 2: Amenities full width -->
+  <div class="bottom-full">
+    <div class="sidebar-amenities" style="border-radius:14px">
+      <h4 style="font-size:13px;margin-bottom:1.1rem">UNMATCHED AMENITIES</h4>
+      <div class="sb-amen-grid" style="grid-template-columns:repeat(10,1fr)">
+        <div class="sb-amen-item"><div class="sb-amen-icon">🔒</div><div class="sb-amen-label">24/7 Security</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">🛗</div><div class="sb-amen-label">High-Speed Lift</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">🚗</div><div class="sb-amen-label">Parking</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">🧒</div><div class="sb-amen-label">Play Area</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">🕉️</div><div class="sb-amen-label">Vastu Homes</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">⚡</div><div class="sb-amen-label">Power Backup</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">📡</div><div class="sb-amen-label">CCTV</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">🌿</div><div class="sb-amen-label">Garden</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">🏊</div><div class="sb-amen-label">Clubhouse</div></div>
+        <div class="sb-amen-item"><div class="sb-amen-icon">☀️</div><div class="sb-amen-label">Solar Water</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3: Address + Testimonials + Quick Contact -->
+  <div class="bottom-row-3col">
+
+    <div class="address-card">
+      <h4>Official Address</h4>
+      <div class="addr-items">
+        <div class="addr-item"><div class="addr-icon">📍</div><div class="addr-text">Commercial Complex No. 2, Vankatesh Nagar, Near KDK College, Nandanvan, Nagpur – 440024</div></div>
+        <div class="addr-item"><div class="addr-icon">📧</div><div class="addr-text"><a href="mailto:narayani.ent123@gmail.com">narayani.ent123@gmail.com</a></div></div>
+        <div class="addr-item"><div class="addr-icon">📞</div><div class="addr-text"><a href="tel:+919028351401">+91 9028351401</a><br/><a href="tel:+919175267080">+91 9175267080</a></div></div>
+        <div class="addr-item"><div class="addr-icon">🕐</div><div class="addr-text">Mon – Sat: 10:00 AM – 7:00 PM<br/>Sunday: By Appointment</div></div>
+      </div>
+    </div>
+
+    <div class="testimonials-block">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+        <h4 style="margin:0">Happy Homeowners</h4>
+        <div id="avg-rating-display" style="display:flex;align-items:center;gap:6px">
+          <span style="color:#F59E0B;font-size:16px" id="avg-stars-display">★★★★★</span>
+          <span style="font-size:12px;color:var(--text2);font-weight:600" id="avg-score-display">5.0</span>
+          <span style="font-size:11px;color:var(--text3)" id="total-reviews-display">(3 reviews)</span>
+        </div>
+      </div>
+      <!-- Dynamic reviews list -->
+      <div id="reviews-list"></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.25rem">
+      <div class="quick-contact-card">
+        <p class="qc-label">Need Immediate Help?</p>
+        <a href="tel:+919028351401" class="qc-btn qc-call">📞 Call Now</a>
+        <a href="https://wa.me/919028351401" target="_blank" class="qc-btn qc-wa">💬 WhatsApp Us</a>
+      </div>
+      <div class="admin-sidebar-btn">
+        <button onclick="openAdmin()">🔐 Admin Panel Login</button>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- end bottom-sections -->
+
+<!-- REVIEW SECTION -->
+<div class="review-section-wrap" id="reviews-section">
+  <div class="review-section-inner">
+
+    <!-- SECTION HEADER -->
+    <div class="review-sec-head">
+      <div>
+        <div class="rev-eyebrow">⭐ Customer Reviews</div>
+        <h2 class="rev-main-title">What Our Homeowners Say</h2>
+        <p class="rev-sub">Real reviews from real families. Submit yours below!</p>
+      </div>
+      <div class="rev-overall-box">
+        <div class="rev-big-score" id="rev-big-score">5.0</div>
+        <div class="rev-big-stars" id="rev-big-stars">★★★★★</div>
+        <div class="rev-big-count" id="rev-big-count">Based on 3 reviews</div>
+        <!-- Star breakdown -->
+        <div class="rev-breakdown" id="rev-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- ALL REVIEWS GRID -->
+    <div class="all-reviews-grid" id="all-reviews-grid">
+      <div style="text-align:center;padding:2rem;color:var(--text3);grid-column:1/-1">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <!-- WRITE A REVIEW FORM -->
+    <div class="write-review-wrap">
+      <h3 class="write-rev-title">✍️ Write Your Review</h3>
+      <p class="write-rev-sub">Bought a home from us? Share your experience and help other families!</p>
+      <div class="write-review-form">
+        <div class="wrf-row">
+          <div class="wrf-group">
+            <label>Your Full Name *</label>
+            <input type="text" id="rev-name" class="wrf-input" placeholder="e.g. Rahul Sharma"/>
+          </div>
+          <div class="wrf-group">
+            <label>Location / Area</label>
+            <input type="text" id="rev-loc" class="wrf-input" placeholder="e.g. Ram Nagar, Nagpur"/>
+          </div>
+          <div class="wrf-group">
+            <label>Project Purchased</label>
+            <select id="rev-project" class="wrf-input">
+              <option value="">Select Project</option>
+              <option>DEV-ARCH 2 – Hanuman Nagar</option>
+              <option>DEV-ARCH 3 – Ram Nagar</option>
+              <option>DEV-ARCH 4 – Ayodhya Nagar</option>
+              <option>Other Project</option>
+            </select>
+          </div>
+        </div>
+        <!-- STAR RATING PICKER -->
+        <div class="wrf-group" style="margin-bottom:1.25rem">
+          <label>Your Rating *</label>
+          <div class="star-picker" id="star-picker">
+            <span class="star-pick" data-val="1">★</span>
+            <span class="star-pick" data-val="2">★</span>
+            <span class="star-pick" data-val="3">★</span>
+            <span class="star-pick" data-val="4">★</span>
+            <span class="star-pick" data-val="5">★</span>
+            <span class="star-pick-label" id="star-pick-label">Click to rate</span>
+          </div>
+        </div>
+        <div class="wrf-group wrf-full">
+          <label>Your Review *</label>
+          <textarea id="rev-text" class="wrf-input" rows="4" placeholder="Tell us about your experience — quality, location, delivery, team, etc..."></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:.5rem">
+          <button class="rev-submit-btn" onclick="submitReview()">Submit Review →</button>
+          <span style="font-size:12px;color:var(--text3)">✅ Your review will appear instantly on the website</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:9px"><div class="logo-icon" style="width:36px;height:36px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#fff"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff">NARAYANI</span></div>
+        <p style="margin-top:.75rem">Premium builders & developers in Nagpur. Your trusted partner in finding the perfect home since 2008.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="#hero">Home</a><a href="#about-section">About Us</a><a href="#projects-section">Projects</a><a href="#amenities-section">Amenities</a><a href="#contact-section">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Locations</h5>
+        <p>Hanuman Nagar</p><p>Ram Nagar</p><p>Ayodhya Nagar</p><p>Nandanvan</p><p>Vankatesh Nagar</p>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="tel:+919028351401">+91 9028351401</a><a href="tel:+919175267080">+91 9175267080</a><a href="mailto:narayani.ent123@gmail.com">narayani.ent123@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 <span>Narayani Enterprises</span>. All Rights Reserved. Nagpur, Maharashtra.</p>
+      <p>MahaRERA Reg: <span>94179108376</span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP -->
+<a id="wa-float" href="https://wa.me/919028351401?text=Hello!%20I'm%20interested%20in%20Narayani%20Enterprises%20properties." target="_blank">
+  <span class="wa-tip">Chat on WhatsApp</span>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<div class="toast" id="toast"></div>
+
+<!-- ADMIN LOGIN -->
+<div id="admin-login-modal">
+  <div class="login-card">
+    <div class="lc-icon">🏗️</div>
+    <h2>Admin Panel</h2>
+    <p>Narayani Enterprises CMS</p>
+    <div class="login-err" id="login-err">Invalid credentials. Please try again.</div>
+    <div class="lg-group"><label class="lg-label">Email</label><input type="email" class="lg-input" id="lg-email" value="admin@narayani.com" placeholder="admin@narayani.com"/></div>
+    <div class="lg-group"><label class="lg-label">Password</label><input type="password" class="lg-input" id="lg-pass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-login" onclick="doLogin()">Sign In →</button>
+    <button class="btn-back-site" onclick="document.getElementById('admin-login-modal').classList.remove('open')">← Back to Website</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-overlay">
+  <div class="adm-nav">
+    <span class="adm-nav-title">🏗️ Narayani CMS Dashboard</span>
+    <div style="display:flex;gap:.75rem;align-items:center">
+      <span style="font-size:12px;color:var(--text3)" id="adm-user"></span>
+      <button class="btn-adm-save" style="font-size:11px;padding:7px 14px" onclick="doLogout()">Sign Out</button>
+      <button onclick="document.getElementById('admin-overlay').style.display='none'" style="background:var(--bg3);border:1.5px solid var(--border);color:var(--text2);padding:7px 14px;border-radius:7px;font-size:11px;cursor:pointer;font-weight:700">← Website</button>
+    </div>
+  </div>
+  <div class="adm-body">
+    <div class="firebase-note"><strong>⚙️ Firebase Setup</strong>Replace <code>firebaseConfig</code> in the script with your real keys. Demo mode active until then.</div>
+    <!-- STATS -->
+    <div class="adm-stat-cards">
+      <div class="adm-stat"><div class="big" id="stat-total">0</div><div class="lbl">Total Projects</div></div>
+      <div class="adm-stat"><div class="big" id="stat-active">0</div><div class="lbl">Active</div></div>
+      <div class="adm-stat"><div class="big" id="stat-sold">0</div><div class="lbl">Sold Out</div></div>
+      <div class="adm-stat"><div class="big" id="stat-enq">0</div><div class="lbl">Enquiries</div></div>
+    </div>
+    <div class="adm-tabs">
+      <button class="adm-tab active" onclick="switchAdmTab('adm-projects',this)">📁 Projects</button>
+      <button class="adm-tab" onclick="switchAdmTab('adm-add',this)">➕ Add / Edit</button>
+      <button class="adm-tab" onclick="switchAdmTab('adm-enquiries',this)">📩 Enquiries</button>
+      <button class="adm-tab" onclick="switchAdmTab('adm-settings',this)">⚙️ Settings</button>
+      <button class="adm-tab" onclick="switchAdmTab('adm-reviews',this);loadAdmReviews()">⭐ Reviews</button>
+    </div>
+
+    <!-- TAB: PROJECTS -->
+    <div class="adm-section active" id="adm-projects">
+      <div class="adm-card"><h3>All Projects</h3><div id="adm-proj-list"></div></div>
+    </div>
+
+    <!-- TAB: ADD/EDIT -->
+    <div class="adm-section" id="adm-add">
+      <div class="adm-card">
+        <h3 id="adm-form-title">Add New Project</h3>
+        <input type="hidden" id="edit-id"/>
+        <div class="adm-form-grid">
+          <div><label class="adm-label">Project Title</label><input class="adm-input" id="f-title" placeholder="e.g. DEV-ARCH 3"/></div>
+          <div><label class="adm-label">Location</label><input class="adm-input" id="f-location" placeholder="e.g. Hanuman Nagar, Nagpur"/></div>
+          <div><label class="adm-label">BHK Type</label><input class="adm-input" id="f-bhk" placeholder="e.g. 3 BHK Luxury Flats"/></div>
+          <div><label class="adm-label">Size (Sq.ft)</label><input class="adm-input" id="f-size" placeholder="e.g. 1300 Sq.ft"/></div>
+          <div><label class="adm-label">Price</label><input class="adm-input" id="f-price" placeholder="e.g. ₹80–85 Lacs"/></div>
+          <div><label class="adm-label">Status</label>
+            <select class="adm-input" id="f-status">
+              <option value="booking_open">Booking Open</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="limited">Limited Flats Left</option>
+              <option value="ready_to_move">Ready to Move</option>
+              <option value="sold_out">Sold Out</option>
+            </select>
+          </div>
+          <div><label class="adm-label">Category</label>
+            <select class="adm-input" id="f-category">
+              <option value="current">Current Project</option>
+              <option value="completed">Completed Project</option>
+            </select>
+          </div>
+          <div><label class="adm-label">Possession Date</label><input class="adm-input" id="f-possession" placeholder="e.g. Dec 2025"/></div>
+          <div class="full"><label class="adm-label">Image URL</label><input class="adm-input" id="f-image" placeholder="https://... (direct image URL)"/></div>
+          <div class="full"><label class="adm-label">Amenities (comma-separated)</label><input class="adm-input" id="f-amenities" placeholder="Parking, Lift, CCTV, Power Backup"/></div>
+          <div class="full"><label class="adm-label">Site Address</label><input class="adm-input" id="f-address" placeholder="Full site address"/></div>
+          <div class="full"><label class="adm-label">Description</label><textarea class="adm-input" id="f-desc" rows="3" placeholder="Short project description..."></textarea></div>
+        </div>
+        <div style="display:flex;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap">
+          <button class="btn-adm-save" onclick="saveProject()">💾 Save Project</button>
+          <button onclick="resetAdmForm()" style="background:var(--bg3);border:1.5px solid var(--border);color:var(--text2);padding:9px 18px;border-radius:7px;font-size:12px;cursor:pointer;font-weight:600">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ENQUIRIES -->
+    <div class="adm-section" id="adm-enquiries">
+      <div class="adm-card"><h3>Customer Enquiries</h3><div id="adm-enq-list"></div></div>
+    </div>
+
+    <!-- TAB: SETTINGS -->
+    <div class="adm-section" id="adm-settings">
+      <div class="adm-card">
+        <h3>Site Settings</h3>
+        <div class="adm-form-grid">
+          <div><label class="adm-label">Company Name</label><input class="adm-input" value="Narayani Enterprises"/></div>
+          <div><label class="adm-label">Owner Name</label><input class="adm-input" value="Devendra Wasnik"/></div>
+          <div><label class="adm-label">Phone 1</label><input class="adm-input" value="+91 9028351401"/></div>
+          <div><label class="adm-label">Phone 2</label><input class="adm-input" value="+91 9175267080"/></div>
+          <div class="full"><label class="adm-label">Office Address</label><input class="adm-input" value="B1,B2,B3 Commercial Complex No.2, Vankatesh Nagar, Nagpur-440024"/></div>
+          <div><label class="adm-label">MahaRERA No.</label><input class="adm-input" value="94179108376"/></div>
+          <div><label class="adm-label">Email</label><input class="adm-input" value="narayani.ent123@gmail.com"/></div>
+        </div>
+        <button class="btn-adm-save" style="margin-top:1rem" onclick="showToast('✅ Settings saved!')">Save Settings</button>
+      </div>
+    </div>
+
+    <!-- TAB: REVIEWS -->
+    <div class="adm-section" id="adm-reviews">
+      <div class="adm-card">
+        <h3>Customer Reviews</h3>
+        <p style="font-size:13px;color:var(--text3);margin-bottom:1.5rem">All reviews submitted by customers. You can delete any review from here.</p>
+        <div id="adm-reviews-list"><div class="loading"><div class="spinner"></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script>
+// ── FIREBASE CONFIG ── Replace with your credentials
+const firebaseConfig = {
+  apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com",
+  projectId:"YOUR_PROJECT", storageBucket:"YOUR_PROJECT.appspot.com",
+  messagingSenderId:"YOUR_ID", appId:"YOUR_APP_ID"
+};
+const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
+let db, auth;
+if (!DEMO) { firebase.initializeApp(firebaseConfig); db=firebase.firestore(); auth=firebase.auth(); }
+
+// ── DEMO DATA ──
+let demoProjects = [
+  { id:'d1', title:'DEV-ARCH 2', location:'Hanuman Nagar, Nagpur', bhk:'3 BHK', size:'1300 SqFt', price:'₹80 Lacs', status:'limited', category:'current', image:'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80', amenities:'Parking,Lift,Security,Kitchen,Power Backup', address:'Plot 456-A, Hanuman Nagar, Nagpur-440024', description:'3-BHK luxury flats in the heart of Hanuman Nagar.', possession:'Dec 2024' },
+  { id:'d2', title:'Ram Nagar Project', location:'Ram Nagar, Nagpur', bhk:'3 BHK', size:'1300 SqFt', price:'₹1.2 Cr', status:'ready_to_move', category:'current', image:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80', amenities:'Parking,Lift,CCTV,Clubhouse,Play Area', address:'Plot 77-A, Ram Nagar, Behind HDFC Bank, Nagpur', description:'Premium 3-BHK flats near Prabhat Restaurant, Ram Nagar.', possession:'Ready' },
+  { id:'d3', title:'Elite Towers', location:'Ayodhya Nagar, Nagpur', bhk:'3 BHK', size:'1300 SqFt', price:'₹65 Lacs', status:'sold_out', category:'current', image:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80', amenities:'Parking,Lift,Power Backup,Security', address:'3 Sakkardhhara St, Ayodhya Nagar, Nagpur-440024', description:'Affordable luxury in Ayodhya Nagar.', possession:'Sold' },
+  { id:'d4', title:'DEV-ARCH 5', location:'Nandanvan, Nagpur', bhk:'2 & 3 BHK', size:'1100 SqFt', price:'₹55 Lacs', status:'ongoing', category:'current', image:'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80', amenities:'Parking,Lift,Security,Solar', address:'Near KDK College, Nandanvan, Nagpur-440024', description:'Upcoming project in prime Nandanvan location.', possession:'Jun 2026' },
+  { id:'d5', title:'DEV-ARCH 1', location:'Vankatesh Nagar, Nagpur', bhk:'3 BHK', size:'1250 SqFt', price:'₹58 Lacs', status:'sold_out', category:'completed', image:'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=600&q=80', amenities:'Parking,Lift,Security,CCTV', address:'Vankatesh Nagar, Nagpur-440024', description:'Our first flagship project — fully delivered.', possession:'Delivered 2022' },
+  { id:'d6', title:'Shree Residency', location:'Hanuman Nagar, Nagpur', bhk:'2 BHK', size:'950 SqFt', price:'₹42 Lacs', status:'sold_out', category:'completed', image:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', amenities:'Parking,Lift,Power Backup', address:'Hanuman Nagar, Nagpur-440024', description:'Compact 2-BHK luxury homes — fully sold.', possession:'Delivered 2021' },
+];
+let demoEnquiries = [];
+
+// ── DARK MODE ──
+function toggleDark() {
+  const html = document.documentElement;
+  html.setAttribute('data-theme', html.getAttribute('data-theme')==='dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', html.getAttribute('data-theme'));
+}
+(function(){ const t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme',t); })();
+
+// ── HELPERS ──
+function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+function scrollToContact() { document.getElementById('contact-section').scrollIntoView({behavior:'smooth'}); }
+
+function badgeClass(s){ return {booking_open:'pbadge-booking',ongoing:'pbadge-ongoing',limited:'pbadge-limited',ready_to_move:'pbadge-ready',sold_out:'pbadge-sold'}[s]||'pbadge-booking'; }
+function badgeLabel(s){ return {booking_open:'BOOKING OPEN',ongoing:'ONGOING',limited:'LIMITED FLATS LEFT',ready_to_move:'READY-TO-MOVE',sold_out:'SOLD OUT'}[s]||''; }
+
+function cardHTML(p,num) {
+  const sold = p.status==='sold_out';
+  const amens = (p.amenities||'').split(',').filter(Boolean).slice(0,3);
+  return `<div class="proj-card" data-status="${p.status}" data-cat="${p.category||'current'}">
+    <div class="proj-card-img">
+      ${p.image?`<img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'"/>`:''}
+      <div class="proj-num">${num}</div>
+      <span class="proj-badge ${badgeClass(p.status)}">${badgeLabel(p.status)}</span>
+      ${sold?`<div class="sold-stamp"><span>SOLD OUT</span></div>`:''}
+    </div>
+    <div class="proj-body">
+      <div class="proj-location">📍 ${p.location||''}</div>
+      <div class="proj-name">${p.title}</div>
+      <div class="proj-meta">
+        ${p.bhk?`<span class="pm-chip">🛏 ${p.bhk}</span>`:''}
+        ${p.size?`<span class="pm-chip">📐 ${p.size}</span>`:''}
+        ${amens.map(a=>`<span class="pm-chip">✓ ${a.trim()}</span>`).join('')}
+        ${p.possession?`<span class="pm-chip">📅 ${p.possession}</span>`:''}
+      </div>
+      <div class="proj-divider"></div>
+      <div class="proj-footer">
+        <div class="proj-price">Starting ${p.price||'On Request'}<small>*Onwards (All Inclusive)</small></div>
+        <button class="proj-enq-btn" onclick="quickEnquiry('${p.title}')">Enquire</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function quickEnquiry(name) {
+  document.getElementById('cf-project').value = name.length <= 50 ? name : '';
+  document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>document.getElementById('cf-name').focus(),600);
+  showToast('Enquiring about: '+name);
+}
+
+// ── FILTER ENGINE ──
+let allProjects=[], activeStatus='all', searchQ='';
+
+function renderAll(projects) {
+  allProjects = projects;
+  applyFilters();
+}
+
+function applyFilters() {
+  let r=[...allProjects];
+  // status
+  if(activeStatus!=='all') r=r.filter(p=>p.status===activeStatus);
+  // search
+  if(searchQ){const q=searchQ.toLowerCase();r=r.filter(p=>['title','location','bhk','amenities','description','address','price'].some(k=>(p[k]||'').toLowerCase().includes(q)));}
+  // dropdowns
+  const loc=document.getElementById('af-loc').value; if(loc) r=r.filter(p=>(p.location||'').toLowerCase().includes(loc.toLowerCase()));
+  const bhk=document.getElementById('af-bhk').value; if(bhk) r=r.filter(p=>(p.bhk||'').toLowerCase().includes(bhk.toLowerCase()));
+  const budget=document.getElementById('af-budget').value; if(budget) r=r.filter(p=>matchBudget(p.price||'',budget));
+  const size=document.getElementById('af-size').value; if(size) r=r.filter(p=>matchSize(p.size||'',size));
+  const sort=document.getElementById('af-sort').value;
+  if(sort==='pasc') r.sort((a,b)=>getPrice(a.price)-getPrice(b.price));
+  else if(sort==='pdesc') r.sort((a,b)=>getPrice(b.price)-getPrice(a.price));
+  else if(sort==='nasc') r.sort((a,b)=>(a.title||'').localeCompare(b.title||''));
+  // split current vs completed
+  const current = r.filter(p=>p.category!=='completed');
+  const completed = r.filter(p=>p.category==='completed');
+  // render grids
+  const cg=document.getElementById('projects-grid');
+  const compg=document.getElementById('completed-grid');
+  cg.innerHTML = current.length ? current.map((p,i)=>cardHTML(p,i+1)).join('') : `<div class="no-projects"><p>No projects found</p><span style="font-size:13px">Try different filters.</span></div>`;
+  compg.innerHTML = completed.length ? completed.map((p,i)=>cardHTML(p,i+1)).join('') : `<div class="no-projects"><p>No completed projects</p></div>`;
+  // count
+  const hasFilters = activeStatus!=='all'||searchQ||loc||bhk||budget||size;
+  document.getElementById('results-info').style.display = hasFilters?'flex':'none';
+  document.getElementById('results-count').innerHTML = `<strong>${r.length}</strong> result${r.length!==1?'s':''}`;
+}
+
+function getPrice(s){ if(!s)return 9e9; const str=s.replace(/[₹,\s]/g,'').toLowerCase(); const m=str.match(/([\d.]+)\s*(cr|lac|lakh|l)?/); if(!m)return 9e9; let v=parseFloat(m[1]); if(m[2]==='cr')v*=100; return v; }
+function matchBudget(s,r){ const v=getPrice(s); return r==='u50'?v<50:r==='50-80'?v>=50&&v<=80:r==='80-120'?v>80&&v<=120:r==='a120'?v>120:true; }
+function matchSize(s,r){ const m=s.replace(/[,\s]/g,'').match(/(\d+)/); if(!m)return true; const v=parseInt(m[1]); return r==='u1000'?v<1000:r==='1000-1300'?v>=1000&&v<=1300:r==='1300-1600'?v>1300&&v<=1600:r==='a1600'?v>1600:true; }
+function onSearch(inp){ searchQ=inp.value.trim(); document.getElementById('search-clear').style.display=searchQ?'block':'none'; applyFilters(); }
+function clearSearch(){ document.getElementById('search-input').value=''; document.getElementById('search-clear').style.display='none'; searchQ=''; applyFilters(); }
+function toggleAdv(){ const el=document.getElementById('adv-filters'),btn=document.getElementById('adv-toggle'); el.classList.toggle('open'); btn.textContent=el.classList.contains('open')?'✕ Close':'⚙️ Filters'; }
+function clearAll(){ searchQ='';activeStatus='all'; document.getElementById('search-input').value=''; document.getElementById('search-clear').style.display='none'; ['af-loc','af-bhk','af-budget','af-size','af-sort'].forEach(id=>document.getElementById(id).value=''); document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active')); document.querySelector('.fpill[data-f="all"]').classList.add('active'); applyFilters(); }
+
+document.querySelectorAll('.fpill').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); activeStatus=btn.dataset.f; applyFilters();
+}));
+
+function loadProjects(){ if(DEMO){renderAll(demoProjects);return;} db.collection('projects').orderBy('createdAt','desc').onSnapshot(s=>{renderAll(s.docs.map(d=>({id:d.id,...d.data()})));},()=>renderAll(demoProjects)); }
+
+// ── EMI CALCULATOR ──
+function calcEMI(){
+  const P=parseFloat(document.getElementById('emi-loan').value||0)-parseFloat(document.getElementById('emi-down').value||0);
+  const r=parseFloat(document.getElementById('emi-rate').value||8.5)/12/100;
+  const n=parseFloat(document.getElementById('emi-years').value||20)*12;
+  if(P<=0||r<=0||n<=0){document.getElementById('emi-val').textContent='₹0';return;}
+  const emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const totalInt=(emi*n)-P;
+  document.getElementById('emi-val').textContent='₹'+Math.round(emi).toLocaleString('en-IN');
+  const lakh=totalInt/100000;
+  document.getElementById('emi-int').textContent=lakh>=100?'₹'+(lakh/100).toFixed(1)+'Cr':'₹'+lakh.toFixed(1)+'L';
+}
+calcEMI();
+
+// ── ENQUIRY FORM ──
+async function submitEnquiry(){
+  const name=document.getElementById('cf-name').value.trim(),phone=document.getElementById('cf-mobile').value.trim();
+  if(!name||!phone){showToast('⚠️ Name and mobile are required.');return;}
+  const data={name,phone,email:document.getElementById('cf-email').value.trim(),project:document.getElementById('cf-project').value,message:document.getElementById('cf-msg').value.trim(),createdAt:new Date().toISOString()};
+  if(DEMO){demoEnquiries.unshift({id:'e'+Date.now(),...data});showToast('✅ Enquiry sent! We\'ll call you soon.');}
+  else{try{await db.collection('enquiries').add(data);showToast('✅ Enquiry submitted! We\'ll contact you shortly.');}catch(e){showToast('❌ Failed. Please call directly.');}}
+  ['cf-name','cf-mobile','cf-email','cf-msg'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cf-project').selectedIndex=0;
+}
+
+// ── NAV ──
+window.addEventListener('scroll',()=>document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>30));
+document.getElementById('ham-btn').onclick=()=>document.getElementById('mob-menu').classList.add('open');
+document.getElementById('mob-close').onclick=closeMob;
+function closeMob(){document.getElementById('mob-menu').classList.remove('open');}
+
+// ── ADMIN ──
+function openAdmin(){document.getElementById('admin-login-modal').classList.add('open');}
+function doLogin(){
+  const e=document.getElementById('lg-email').value,p=document.getElementById('lg-pass').value;
+  document.getElementById('login-err').style.display='none';
+  if(DEMO){if(e==='admin@narayani.com'&&p==='narayani2025'){document.getElementById('admin-login-modal').classList.remove('open');document.getElementById('admin-overlay').style.display='block';document.getElementById('adm-user').textContent=e;loadAdmProjects();loadAdmEnquiries();}else document.getElementById('login-err').style.display='block';return;}
+  auth.signInWithEmailAndPassword(e,p).then(u=>{document.getElementById('admin-login-modal').classList.remove('open');document.getElementById('admin-overlay').style.display='block';document.getElementById('adm-user').textContent=u.user.email;loadAdmProjects();loadAdmEnquiries();}).catch(()=>document.getElementById('login-err').style.display='block');
+}
+function doLogout(){document.getElementById('admin-overlay').style.display='none';if(!DEMO)auth.signOut();}
+function switchAdmTab(id,btn){document.querySelectorAll('.adm-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.adm-tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+
+function loadAdmProjects(){
+  const projects=DEMO?demoProjects:[];
+  // stats
+  document.getElementById('stat-total').textContent=projects.length;
+  document.getElementById('stat-active').textContent=projects.filter(p=>p.status!=='sold_out').length;
+  document.getElementById('stat-sold').textContent=projects.filter(p=>p.status==='sold_out').length;
+  document.getElementById('stat-enq').textContent=demoEnquiries.length;
+  const el=document.getElementById('adm-proj-list');
+  if(!projects.length){el.innerHTML='<p style="color:var(--text3)">No projects yet.</p>';return;}
+  el.innerHTML=`<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>Project</th><th>Location</th><th>Price</th><th>Status</th><th>Category</th><th>Actions</th></tr></thead><tbody>${projects.map(p=>`<tr><td><strong style="color:var(--text)">${p.title}</strong><br/><span style="font-size:11px;color:var(--text3)">${p.bhk||''} · ${p.size||''}</span></td><td style="font-size:12px">${p.location||''}</td><td style="color:var(--maroon);font-family:'Playfair Display',serif;font-size:15px">${p.price||''}</td><td><span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:50px;background:rgba(139,26,43,.1);color:var(--maroon)">${badgeLabel(p.status)}</span></td><td style="font-size:11px;color:var(--text3)">${p.category||'current'}</td><td><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="btn-adm-edit" onclick="editProj(${JSON.stringify(p).replace(/"/g,'&quot;')})">Edit</button><button class="btn-adm-del" onclick="delProj('${p.id}','${p.title}')">Delete</button></div></td></tr>`).join('')}</tbody></table></div>`;
+  if(!DEMO){db.collection('projects').orderBy('createdAt','desc').onSnapshot(s=>{const ps=s.docs.map(d=>({id:d.id,...d.data()}));document.getElementById('stat-total').textContent=ps.length;document.getElementById('stat-active').textContent=ps.filter(p=>p.status!=='sold_out').length;document.getElementById('stat-sold').textContent=ps.filter(p=>p.status==='sold_out').length;});}
+}
+
+function editProj(p){
+  document.getElementById('edit-id').value=p.id;
+  ['title','location','bhk','size','price','image','amenities','address','possession'].forEach(k=>{const el=document.getElementById('f-'+k);if(el)el.value=p[k]||'';});
+  document.getElementById('f-status').value=p.status||'booking_open';
+  document.getElementById('f-category').value=p.category||'current';
+  document.getElementById('f-desc').value=p.description||'';
+  document.getElementById('adm-form-title').textContent='Edit: '+p.title;
+  switchAdmTab('adm-add',document.querySelectorAll('.adm-tab')[1]);
+}
+
+async function saveProject(){
+  const id=document.getElementById('edit-id').value;
+  const data={title:document.getElementById('f-title').value.trim(),location:document.getElementById('f-location').value.trim(),bhk:document.getElementById('f-bhk').value.trim(),size:document.getElementById('f-size').value.trim(),price:document.getElementById('f-price').value.trim(),status:document.getElementById('f-status').value,category:document.getElementById('f-category').value,image:document.getElementById('f-image').value.trim(),amenities:document.getElementById('f-amenities').value.trim(),address:document.getElementById('f-address').value.trim(),possession:document.getElementById('f-possession').value.trim(),description:document.getElementById('f-desc').value.trim(),updatedAt:new Date().toISOString()};
+  if(!data.title){showToast('⚠️ Title required');return;}
+  if(DEMO){if(id){const i=demoProjects.findIndex(p=>p.id===id);if(i>-1)demoProjects[i]={id,...data};}else demoProjects.unshift({id:'d'+Date.now(),createdAt:new Date().toISOString(),...data});showToast('✅ Saved (demo)');resetAdmForm();loadAdmProjects();loadProjects();return;}
+  try{if(id)await db.collection('projects').doc(id).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await db.collection('projects').add(data);}showToast('✅ Project saved!');resetAdmForm();}catch(e){showToast('❌ '+e.message);}
+}
+
+async function delProj(id,title){
+  if(!confirm(`Delete "${title}"?`))return;
+  if(DEMO){demoProjects=demoProjects.filter(p=>p.id!==id);showToast('🗑️ Deleted');loadAdmProjects();loadProjects();return;}
+  try{await db.collection('projects').doc(id).delete();showToast('🗑️ Deleted');}catch(e){showToast('❌ '+e.message);}
+}
+
+function resetAdmForm(){document.getElementById('edit-id').value='';['f-title','f-location','f-bhk','f-size','f-price','f-image','f-amenities','f-address','f-possession','f-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-status').value='booking_open';document.getElementById('f-category').value='current';document.getElementById('adm-form-title').textContent='Add New Project';}
+
+function loadAdmEnquiries(){
+  const enqs=DEMO?demoEnquiries:[];
+  const el=document.getElementById('adm-enq-list');
+  document.getElementById('stat-enq').textContent=enqs.length;
+  if(!enqs.length){el.innerHTML='<p style="color:var(--text3)">No enquiries yet. They\'ll appear here when customers submit the form.</p>';return;}
+  el.innerHTML=`<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Project</th><th>Message</th><th>Date</th></tr></thead><tbody>${enqs.map(e=>`<tr><td><strong style="color:var(--text)">${e.name||''}</strong></td><td><a href="tel:${e.phone}" style="color:var(--maroon);text-decoration:none;font-weight:600">${e.phone||''}</a></td><td style="font-size:11.5px">${e.email||'–'}</td><td style="font-size:11.5px">${e.project||'–'}</td><td style="font-size:11.5px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.message||'–'}</td><td style="font-size:11px;color:var(--text3)">${e.createdAt?new Date(e.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'–'}</td></tr>`).join('')}</tbody></table></div>`;
+  if(!DEMO)db.collection('enquiries').orderBy('createdAt','desc').onSnapshot(s=>{const enqs=s.docs.map(d=>({id:d.id,...d.data()}));document.getElementById('stat-enq').textContent=enqs.length;});
+}
+
+
+// ══════════════════════════════════════════
+// REVIEW SYSTEM
+// ══════════════════════════════════════════
+let demoReviews = [
+  { id:'r1', name:'Rahul Sharma', location:'Ram Nagar, Nagpur', project:'DEV-ARCH 3 – Ram Nagar', rating:5, text:'Narayani Enterprises gave us our dream home in Ram Nagar. The quality of construction and on-time delivery truly impressed us. Devendra bhai is very professional.', date:'2025-01-15', verified:true },
+  { id:'r2', name:'Priya Deshmukh', location:'Ayodhya Nagar, Nagpur', project:'DEV-ARCH 4 – Ayodhya Nagar', rating:5, text:'Very trustworthy builder. Transparent pricing, no hidden charges. We got exactly what was promised. The flat is spacious and well-finished.', date:'2025-02-20', verified:true },
+  { id:'r3', name:'Suresh Yadav', location:'Hanuman Nagar, Nagpur', project:'DEV-ARCH 2 – Hanuman Nagar', rating:4, text:'Great location and excellent amenities. The 3 BHK flat is spacious and beautifully designed. Very happy with the purchase!', date:'2025-03-10', verified:true },
+];
+let selectedRating = 0;
+
+function loadReviews() {
+  if (DEMO) { renderReviews(demoReviews); return; }
+  db.collection('reviews').where('approved','==',true).orderBy('createdAt','desc')
+    .onSnapshot(snap => renderReviews(snap.docs.map(d => ({id:d.id,...d.data()}))));
+}
+
+function renderReviews(reviews) {
+  // Update avg rating in mini widget
+  const avg = reviews.length ? (reviews.reduce((s,r)=>s+r.rating,0)/reviews.length).toFixed(1) : '5.0';
+  const stars = (n) => '★'.repeat(Math.round(n)) + '☆'.repeat(5-Math.round(n));
+
+  // Mini widget in testimonials block
+  const as = document.getElementById('avg-stars-display');
+  const asc = document.getElementById('avg-score-display');
+  const trd = document.getElementById('total-reviews-display');
+  if(as) as.textContent = stars(avg);
+  if(asc) asc.textContent = avg;
+  if(trd) trd.textContent = '('+reviews.length+' reviews)';
+
+  // Big score
+  const bs = document.getElementById('rev-big-score');
+  const bst = document.getElementById('rev-big-stars');
+  const bc = document.getElementById('rev-big-count');
+  if(bs) bs.textContent = avg;
+  if(bst) bst.textContent = stars(avg);
+  if(bc) bc.textContent = 'Based on '+reviews.length+' review'+(reviews.length!==1?'s':'');
+
+  // Breakdown bars
+  const bd = document.getElementById('rev-breakdown');
+  if(bd) {
+    let html = '';
+    for(let i=5;i>=1;i--) {
+      const cnt = reviews.filter(r=>Math.round(r.rating)===i).length;
+      const pct = reviews.length ? Math.round(cnt/reviews.length*100) : 0;
+      html += `<div class="rev-bar-row"><span class="rev-bar-lbl">${i}</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:${pct}%"></div></div><span class="rev-bar-count">${cnt}</span></div>`;
+    }
+    bd.innerHTML = html;
+  }
+
+  // Reviews grid
+  const grid = document.getElementById('all-reviews-grid');
+  if(!grid) return;
+  if(!reviews.length) {
+    grid.innerHTML = '<div class="no-reviews"><p>No reviews yet</p><span>Be the first to share your experience!</span></div>';
+    return;
+  }
+  grid.innerHTML = reviews.map(r => {
+    const initials = r.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const starStr = '★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
+    const dateStr = r.date ? new Date(r.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : (r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '');
+    return `<div class="rev-card">
+      ${r.project?`<span class="rev-card-project">${r.project.split('–')[0].trim()}</span>`:''}
+      <div class="rev-card-stars">${starStr}</div>
+      <div class="rev-card-text">"${r.text}"</div>
+      <div class="rev-card-author">
+        <div class="rev-card-avatar">${initials}</div>
+        <div>
+          <div class="rev-card-name">${r.name}</div>
+          <div class="rev-card-meta">${r.location||''}</div>
+          <div class="rev-card-date">${dateStr}</div>
+          ${r.verified?'<span class="rev-verified">✅ Verified Buyer</span>':''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Also update mini testimonials block
+  const rl = document.getElementById('reviews-list');
+  if(rl) {
+    rl.innerHTML = reviews.slice(0,3).map(r => {
+      const initials = r.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+      const starStr = '★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
+      return `<div class="testi-item">
+        <div class="testi-stars">${starStr}</div>
+        <div class="testi-text">"${r.text.length>120?r.text.substring(0,120)+'...':r.text}"</div>
+        <div class="testi-author"><div class="testi-avatar">${initials}</div><div><div class="testi-name">${r.name}</div><div class="testi-loc">${r.location||''}</div></div></div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// Star picker
+document.addEventListener('DOMContentLoaded', () => {
+  const stars = document.querySelectorAll('.star-pick');
+  stars.forEach(s => {
+    s.addEventListener('mouseenter', () => {
+      const v = parseInt(s.dataset.val);
+      stars.forEach(st => { st.classList.toggle('hover', parseInt(st.dataset.val) <= v); });
+    });
+    s.addEventListener('mouseleave', () => {
+      stars.forEach(st => { st.classList.remove('hover'); st.classList.toggle('active', parseInt(st.dataset.val) <= selectedRating); });
+    });
+    s.addEventListener('click', () => {
+      selectedRating = parseInt(s.dataset.val);
+      const labels = ['','Poor','Fair','Good','Very Good','Excellent!'];
+      document.getElementById('star-pick-label').textContent = labels[selectedRating];
+      stars.forEach(st => st.classList.toggle('active', parseInt(st.dataset.val) <= selectedRating));
+    });
+  });
+  loadReviews();
+});
+
+async function submitReview() {
+  const name = document.getElementById('rev-name').value.trim();
+  const text = document.getElementById('rev-text').value.trim();
+  if(!name) { showToast('⚠️ Please enter your name.'); return; }
+  if(!selectedRating) { showToast('⚠️ Please select a star rating.'); return; }
+  if(text.length < 15) { showToast('⚠️ Please write at least 15 characters.'); return; }
+
+  const review = {
+    name, rating: selectedRating, text,
+    location: document.getElementById('rev-loc').value.trim(),
+    project: document.getElementById('rev-project').value,
+    date: new Date().toISOString().split('T')[0],
+    createdAt: new Date().toISOString(),
+    verified: false,
+    approved: true
+  };
+
+  if(DEMO) {
+    demoReviews.unshift({id:'r'+Date.now(),...review});
+    renderReviews(demoReviews);
+    showToast('✅ Thank you! Your review is now live.');
+    resetReviewForm();
+    document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  try {
+    await db.collection('reviews').add(review);
+    showToast('✅ Thank you! Your review is now live.');
+    resetReviewForm();
+  } catch(e) { showToast('❌ Error: '+e.message); }
+}
+
+function resetReviewForm() {
+  ['rev-name','rev-loc','rev-text'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('rev-project').selectedIndex=0;
+  selectedRating=0;
+  document.querySelectorAll('.star-pick').forEach(s=>s.classList.remove('active','hover'));
+  document.getElementById('star-pick-label').textContent='Click to rate';
+}
+
+// Admin: delete review
+async function deleteReview(id) {
+  if(!confirm('Delete this review?')) return;
+  if(DEMO) { demoReviews=demoReviews.filter(r=>r.id!==id); renderReviews(demoReviews); showToast('🗑️ Review deleted.'); return; }
+  try { await db.collection('reviews').doc(id).delete(); showToast('🗑️ Deleted.'); } catch(e) { showToast('❌ '+e.message); }
+}
+
+
+function loadAdmReviews() {
+  const reviews = DEMO ? demoReviews : [];
+  const el = document.getElementById('adm-reviews-list');
+  if(!el) return;
+  if(!reviews.length) { el.innerHTML='<p style="color:var(--text3)">No reviews yet.</p>'; return; }
+  el.innerHTML = `<div style="overflow-x:auto"><table class="adm-table">
+    <thead><tr><th>Name</th><th>Rating</th><th>Review</th><th>Project</th><th>Date</th><th>Action</th></tr></thead>
+    <tbody>${reviews.map(r=>`<tr>
+      <td><strong style="color:var(--text)">${r.name}</strong><br/><span style="font-size:11px;color:var(--text3)">${r.location||''}</span></td>
+      <td style="color:#F59E0B;font-size:15px">${'★'.repeat(r.rating)}</td>
+      <td style="font-size:12px;max-width:200px;color:var(--text2)">${r.text.substring(0,80)}...</td>
+      <td style="font-size:11px;color:var(--text3)">${r.project||'–'}</td>
+      <td style="font-size:11px;color:var(--text3)">${r.date||''}</td>
+      <td><button class="btn-adm-del" onclick="deleteReview('${r.id}')">Delete</button></td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+  if(!DEMO) db.collection('reviews').orderBy('createdAt','desc').onSnapshot(s=>{const rs=s.docs.map(d=>({id:d.id,...d.data()}));el.innerHTML=el.innerHTML;loadAdmReviews();});
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded',()=>{ loadProjects(); calcEMI(); });
+</script>
+</body>
+</html>

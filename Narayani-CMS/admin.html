@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin CMS - Narayani Enterprises</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-sold { background: #fee2e2; color: #991b1b; }
+        .status-limited { background: #fef3c7; color: #92400e; }
+        .status-open { background: #d1fae5; color: #065f46; }
+        .status-ongoing { background: #dbeafe; color: #1e40af; }
+        .status-ready { background: #e0e7ff; color: #3730a3; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="gradient-bg min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 max-w-md w-full slide-in">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-red-900 to-red-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Admin CMS</h1>
+                <p class="text-gray-600">Narayani Enterprises</p>
+            </div>
+            
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="admin-email" required class="input-field" placeholder="admin@narayani.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                    <input type="password" id="admin-password" required class="input-field" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn-primary w-full text-lg">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Login to Dashboard
+                </button>
+                <div id="login-error" class="hidden bg-red-100 text-red-700 p-3 rounded-lg text-sm text-center"></div>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 text-sm">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <!-- Top Navigation -->
+        <nav class="bg-white shadow-lg sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-red-900 to-red-700 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold">NE</span>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">Admin Dashboard</h1>
+                            <p class="text-xs text-gray-600">Narayani Enterprises</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-700 hidden md:block" id="admin-user-email"></span>
+                        <button id="logout-btn" class="btn-secondary">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Stats Cards -->
+            <div class="grid md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Total Projects</p>
+                            <p class="text-3xl font-bold text-gray-900" id="total-projects">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-building text-2xl text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Ongoing</p>
+                            <p class="text-3xl font-bold text-gray-900" id="ongoing-projects">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-hard-hat text-2xl text-yellow-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Ready to Move</p>
+                            <p class="text-3xl font-bold text-gray-900" id="ready-projects">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-semibold">Sold Out</p>
+                            <p class="text-3xl font-bold text-gray-900" id="sold-projects">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tag text-2xl text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Project Button -->
+            <div class="mb-6">
+                <button id="add-project-btn" class="btn-primary text-lg">
+                    <i class="fas fa-plus-circle mr-2"></i> Add New Project
+                </button>
+            </div>
+
+            <!-- Projects Table -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-900">All Projects</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Project</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Price</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body" class="divide-y divide-gray-200">
+                            <!-- Projects will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="no-projects-msg" class="hidden p-12 text-center">
+                    <i class="fas fa-building text-6xl text-gray-300 mb-4"></i>
+                    <p class="text-xl text-gray-500">No projects yet. Add your first project!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content slide-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900" id="modal-title">Add New Project</h2>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-900 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="project-form" class="space-y-4">
+                <input type="hidden" id="project-id">
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Project Title *</label>
+                    <input type="text" id="project-title" required class="input-field" placeholder="e.g., Dev-Arch-2">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Location *</label>
+                    <input type="text" id="project-location" required class="input-field" placeholder="e.g., Hanuman Nagar, Nagpur">
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">BHK Type *</label>
+                        <select id="project-bhk" required class="input-field">
+                            <option value="">Select BHK</option>
+                            <option value="1">1 BHK</option>
+                            <option value="2">2 BHK</option>
+                            <option value="3">3 BHK</option>
+                            <option value="4">4 BHK</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Size (Sq.Ft) *</label>
+                        <input type="text" id="project-size" required class="input-field" placeholder="e.g., 1300">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Price *</label>
+                    <input type="text" id="project-price" required class="input-field" placeholder="e.g., ₹80 Lacs* or ₹1.2 Cr*">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Status *</label>
+                    <select id="project-status" required class="input-field">
+                        <option value="">Select Status</option>
+                        <option value="open">Booking Open</option>
+                        <option value="limited">Limited Flats Left</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="ready">Ready to Move</option>
+                        <option value="sold">Sold Out</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Image URL *</label>
+                    <input type="url" id="project-image" required class="input-field" placeholder="https://example.com/image.jpg">
+                    <p class="text-xs text-gray-500 mt-1">Use image hosting services like Imgur, Cloudinary, or direct URLs</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Amenities (Optional)</label>
+                    <textarea id="project-amenities" rows="3" class="input-field" placeholder="e.g., 24/7 Security, Lift, Parking, etc."></textarea>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="btn-primary flex-1">
+                        <i class="fas fa-save mr-2"></i> Save Project
+                    </button>
+                    <button type="button" id="cancel-modal" class="btn-secondary flex-1">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase Configuration - REPLACE WITH YOUR CONFIG
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const loginScreen = document.getElementById('login-screen');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const logoutBtn = document.getElementById('logout-btn');
+        const addProjectBtn = document.getElementById('add-project-btn');
+        const projectModal = document.getElementById('project-modal');
+        const projectForm = document.getElementById('project-form');
+        const closeModal = document.getElementById('close-modal');
+        const cancelModal = document.getElementById('cancel-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const projectsTableBody = document.getElementById('projects-table-body');
+        const noProjectsMsg = document.getElementById('no-projects-msg');
+
+        let allProjects = [];
+        let editingProjectId = null;
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                showDashboard(user);
+            } else {
+                showLogin();
+            }
+        });
+
+        // Show Login Screen
+        function showLogin() {
+            loginScreen.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+        }
+
+        // Show Dashboard
+        function showDashboard(user) {
+            loginScreen.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            document.getElementById('admin-user-email').textContent = user.email;
+            loadProjects();
+        }
+
+        // Login Handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                loginError.classList.add('hidden');
+            } catch (error) {
+                loginError.textContent = 'Invalid email or password. Please try again.';
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        // Logout Handler
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+
+        // Load Projects in Real-time
+        function loadProjects() {
+            const projectsRef = collection(db, 'projects');
+            const q = query(projectsRef, orderBy('createdAt', 'desc'));
+
+            onSnapshot(q, (snapshot) => {
+                allProjects = [];
+                snapshot.forEach((doc) => {
+                    allProjects.push({ id: doc.id, ...doc.data() });
+                });
+                
+                displayProjects();
+                updateStats();
+            });
+        }
+
+        // Display Projects in Table
+        function displayProjects() {
+            if (allProjects.length === 0) {
+                projectsTableBody.innerHTML = '';
+                noProjectsMsg.classList.remove('hidden');
+                return;
+            }
+
+            noProjectsMsg.classList.add('hidden');
+            projectsTableBody.innerHTML = '';
+
+            allProjects.forEach((project) => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="${project.imageUrl}" alt="${project.title}" class="w-16 h-16 rounded-lg object-cover">
+                            <div>
+                                <p class="font-semibold text-gray-900">${project.title}</p>
+                                <p class="text-sm text-gray-600">${project.bhk} BHK - ${project.size} SqFt</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-700">${project.location}</td>
+                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">${project.price}</td>
+                    <td class="px-6 py-4">
+                        <span class="status-badge status-${project.status}">${getStatusLabel(project.status)}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex space-x-2">
+                            <button onclick="editProject('${project.id}')" class="text-blue-600 hover:text-blue-800 font-semibold">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </button>
+                            <button onclick="deleteProject('${project.id}', '${project.title}')" class="text-red-600 hover:text-red-800 font-semibold">
+                                <i class="fas fa-trash mr-1"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                `;
+                projectsTableBody.appendChild(row);
+            });
+        }
+
+        // Update Statistics
+        function updateStats() {
+            document.getElementById('total-projects').textContent = allProjects.length;
+            document.getElementById('ongoing-projects').textContent = allProjects.filter(p => p.status === 'ongoing').length;
+            document.getElementById('ready-projects').textContent = allProjects.filter(p => p.status === 'ready').length;
+            document.getElementById('sold-projects').textContent = allProjects.filter(p => p.status === 'sold').length;
+        }
+
+        // Get Status Label
+        function getStatusLabel(status) {
+            const labels = {
+                'sold': 'Sold Out',
+                'limited': 'Limited Flats',
+                'open': 'Booking Open',
+                'ongoing': 'Ongoing',
+                'ready': 'Ready to Move'
+            };
+            return labels[status] || status;
+        }
+
+        // Add Project Button
+        addProjectBtn.addEventListener('click', () => {
+            editingProjectId = null;
+            modalTitle.textContent = 'Add New Project';
+            projectForm.reset();
+            projectModal.classList.add('active');
+        });
+
+        // Close Modal
+        closeModal.addEventListener('click', () => {
+            projectModal.classList.remove('active');
+        });
+
+        cancelModal.addEventListener('click', () => {
+            projectModal.classList.remove('active');
+        });
+
+        // Project Form Submit
+        projectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const projectData = {
+                title: document.getElementById('project-title').value,
+                location: document.getElementById('project-location').value,
+                bhk: document.getElementById('project-bhk').value,
+                size: document.getElementById('project-size').value,
+                price: document.getElementById('project-price').value,
+                status: document.getElementById('project-status').value,
+                imageUrl: document.getElementById('project-image').value,
+                amenities: document.getElementById('project-amenities').value,
+                updatedAt: serverTimestamp()
+            };
+
+            try {
+                if (editingProjectId) {
+                    // Update existing project
+                    const projectRef = doc(db, 'projects', editingProjectId);
+                    await updateDoc(projectRef, projectData);
+                    alert('Project updated successfully!');
+                } else {
+                    // Add new project
+                    projectData.createdAt = serverTimestamp();
+                    await addDoc(collection(db, 'projects'), projectData);
+                    alert('Project added successfully!');
+                }
+                
+                projectModal.classList.remove('active');
+                projectForm.reset();
+            } catch (error) {
+                console.error('Error saving project:', error);
+                alert('Error saving project. Please try again.');
+            }
+        });
+
+        // Edit Project (Global function)
+        window.editProject = function(projectId) {
+            const project = allProjects.find(p => p.id === projectId);
+            if (!project) return;
+
+            editingProjectId = projectId;
+            modalTitle.textContent = 'Edit Project';
+            
+            document.getElementById('project-title').value = project.title;
+            document.getElementById('project-location').value = project.location;
+            document.getElementById('project-bhk').value = project.bhk;
+            document.getElementById('project-size').value = project.size;
+            document.getElementById('project-price').value = project.price;
+            document.getElementById('project-status').value = project.status;
+            document.getElementById('project-image').value = project.imageUrl;
+            document.getElementById('project-amenities').value = project.amenities || '';
+            
+            projectModal.classList.add('active');
+        };
+
+        // Delete Project (Global function)
+        window.deleteProject = async function(projectId, projectTitle) {
+            if (!confirm(`Are you sure you want to delete "${projectTitle}"? This action cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, 'projects', projectId));
+                alert('Project deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting project:', error);
+                alert('Error deleting project. Please try again.');
+            }
+        };
+    </script>
+</body>
+</html>
