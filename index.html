@@ -983,13 +983,9 @@ footer{background:var(--maroon3);margin-top:2rem;padding:2.5rem 1.5rem 1.25rem}
 <script>
 // ── FIREBASE CONFIG ── Replace with your credentials
 const firebaseConfig = {
-  apiKey: "AIzaSyCRzBzCSGAMxdeJjo-YGNiZQ_8lBuzyMvk",
-  authDomain: "rayani-enterprises.firebaseapp.com",
-  projectId: "rayani-enterprises",
-  storageBucket: "rayani-enterprises.firebasestorage.app",
-  messagingSenderId: "430088179558",
-  appId: "1:430088179558:web:76230cae64926e846cc2a7",
-  measurementId: "G-EWB520ZN2Y"
+  apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com",
+  projectId:"YOUR_PROJECT", storageBucket:"YOUR_PROJECT.appspot.com",
+  messagingSenderId:"YOUR_ID", appId:"YOUR_APP_ID"
 };
 const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
 let db, auth;
@@ -1150,17 +1146,59 @@ function doLogin(){
 function doLogout(){document.getElementById('admin-overlay').style.display='none';if(!DEMO)auth.signOut();}
 function switchAdmTab(id,btn){document.querySelectorAll('.adm-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.adm-tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
 
-function loadAdmProjects(){
-  const projects=DEMO?demoProjects:[];
-  // stats
+function renderAdmProjectsTable(projects){
+  const el=document.getElementById('adm-proj-list');
+  if(!el) return;
+  // update stats
   document.getElementById('stat-total').textContent=projects.length;
   document.getElementById('stat-active').textContent=projects.filter(p=>p.status!=='sold_out').length;
   document.getElementById('stat-sold').textContent=projects.filter(p=>p.status==='sold_out').length;
-  document.getElementById('stat-enq').textContent=demoEnquiries.length;
+  if(!projects.length){
+    el.innerHTML='<p style="color:var(--text3);padding:1rem 0;font-size:14px">No projects yet. Add your first project from the ➕ Add/Edit tab.</p>';
+    return;
+  }
+  const rows = projects.map(p => {
+    const safeP = JSON.stringify(p).replace(/"/g,'&quot;');
+    return `<tr>
+      <td><strong style="color:var(--text)">${p.title||''}</strong><br/>
+        <span style="font-size:11px;color:var(--text3)">${p.bhk||''} ${p.size?'· '+p.size:''}</span>
+      </td>
+      <td style="font-size:12px;color:var(--text2)">${p.location||'–'}</td>
+      <td style="color:var(--maroon);font-family:'Playfair Display',serif;font-size:15px;font-weight:700">${p.price||'–'}</td>
+      <td><span style="font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:50px;background:rgba(139,26,43,.1);color:var(--maroon)">${badgeLabel(p.status)}</span></td>
+      <td style="font-size:11px;color:var(--text3);text-transform:capitalize">${p.category||'current'}</td>
+      <td><div style="display:flex;gap:.4rem;flex-wrap:wrap">
+        <button class="btn-adm-edit" onclick='editProj(${safeP})'>✏️ Edit</button>
+        <button class="btn-adm-del" onclick="delProj('${p.id}','${p.title}')">🗑️ Delete</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  el.innerHTML = `<div style="overflow-x:auto">
+    <table class="adm-table">
+      <thead><tr><th>Project</th><th>Location</th><th>Price</th><th>Status</th><th>Category</th><th>Actions</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p style="font-size:12px;color:var(--text3);margin-top:.75rem">Total: <strong style="color:var(--maroon)">${projects.length}</strong> project${projects.length!==1?'s':''}</p>
+  </div>`;
+}
+
+function loadAdmProjects(){
   const el=document.getElementById('adm-proj-list');
-  if(!projects.length){el.innerHTML='<p style="color:var(--text3)">No projects yet.</p>';return;}
-  el.innerHTML=`<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>Project</th><th>Location</th><th>Price</th><th>Status</th><th>Category</th><th>Actions</th></tr></thead><tbody>${projects.map(p=>`<tr><td><strong style="color:var(--text)">${p.title}</strong><br/><span style="font-size:11px;color:var(--text3)">${p.bhk||''} · ${p.size||''}</span></td><td style="font-size:12px">${p.location||''}</td><td style="color:var(--maroon);font-family:'Playfair Display',serif;font-size:15px">${p.price||''}</td><td><span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:50px;background:rgba(139,26,43,.1);color:var(--maroon)">${badgeLabel(p.status)}</span></td><td style="font-size:11px;color:var(--text3)">${p.category||'current'}</td><td><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="btn-adm-edit" onclick="editProj(${JSON.stringify(p).replace(/"/g,'&quot;')})">Edit</button><button class="btn-adm-del" onclick="delProj('${p.id}','${p.title}')">Delete</button></div></td></tr>`).join('')}</tbody></table></div>`;
-  if(!DEMO){db.collection('projects').orderBy('createdAt','desc').onSnapshot(s=>{const ps=s.docs.map(d=>({id:d.id,...d.data()}));document.getElementById('stat-total').textContent=ps.length;document.getElementById('stat-active').textContent=ps.filter(p=>p.status!=='sold_out').length;document.getElementById('stat-sold').textContent=ps.filter(p=>p.status==='sold_out').length;});}
+  if(!el) return;
+  if(DEMO){
+    renderAdmProjectsTable(demoProjects);
+    return;
+  }
+  // Firebase — real-time listener so any new project appears instantly
+  el.innerHTML='<div style="padding:1rem;color:var(--text3);font-size:13px">⏳ Loading projects...</div>';
+  db.collection('projects').orderBy('createdAt','desc').onSnapshot(snapshot => {
+    const projects = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+    renderAdmProjectsTable(projects);
+    // also update enquiry count
+    document.getElementById('stat-enq').textContent = demoEnquiries.length;
+  }, err => {
+    el.innerHTML='<p style="color:red;font-size:13px">❌ Error loading: '+err.message+'</p>';
+  });
 }
 
 function editProj(p){
@@ -1178,24 +1216,60 @@ async function saveProject(){
   const data={title:document.getElementById('f-title').value.trim(),location:document.getElementById('f-location').value.trim(),bhk:document.getElementById('f-bhk').value.trim(),size:document.getElementById('f-size').value.trim(),price:document.getElementById('f-price').value.trim(),status:document.getElementById('f-status').value,category:document.getElementById('f-category').value,image:document.getElementById('f-image').value.trim(),amenities:document.getElementById('f-amenities').value.trim(),address:document.getElementById('f-address').value.trim(),possession:document.getElementById('f-possession').value.trim(),description:document.getElementById('f-desc').value.trim(),updatedAt:new Date().toISOString()};
   if(!data.title){showToast('⚠️ Title required');return;}
   if(DEMO){if(id){const i=demoProjects.findIndex(p=>p.id===id);if(i>-1)demoProjects[i]={id,...data};}else demoProjects.unshift({id:'d'+Date.now(),createdAt:new Date().toISOString(),...data});showToast('✅ Saved (demo)');resetAdmForm();loadAdmProjects();loadProjects();return;}
-  try{if(id)await db.collection('projects').doc(id).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await db.collection('projects').add(data);}showToast('✅ Project saved!');resetAdmForm();}catch(e){showToast('❌ '+e.message);}
+  try{
+    if(id){ 
+      await db.collection('projects').doc(id).update(data); 
+      showToast('✅ Project updated!'); 
+    } else { 
+      data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); 
+      await db.collection('projects').add(data); 
+      showToast('✅ Project added successfully!'); 
+    }
+    resetAdmForm();
+    // Switch back to projects tab so user sees it immediately
+    switchAdmTab('adm-projects', document.querySelectorAll('.adm-tab')[0]);
+  }catch(e){showToast('❌ '+e.message);}
 }
 
 async function delProj(id,title){
   if(!confirm(`Delete "${title}"?`))return;
   if(DEMO){demoProjects=demoProjects.filter(p=>p.id!==id);showToast('🗑️ Deleted');loadAdmProjects();loadProjects();return;}
-  try{await db.collection('projects').doc(id).delete();showToast('🗑️ Deleted');}catch(e){showToast('❌ '+e.message);}
+  try{await db.collection('projects').doc(id).delete();showToast('🗑️ Project deleted.');}catch(e){showToast('❌ '+e.message);}
 }
 
 function resetAdmForm(){document.getElementById('edit-id').value='';['f-title','f-location','f-bhk','f-size','f-price','f-image','f-amenities','f-address','f-possession','f-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-status').value='booking_open';document.getElementById('f-category').value='current';document.getElementById('adm-form-title').textContent='Add New Project';}
 
 function loadAdmEnquiries(){
-  const enqs=DEMO?demoEnquiries:[];
   const el=document.getElementById('adm-enq-list');
+  if(!el) return;
+  if(DEMO){ 
+    renderAdmEnquiriesTable(demoEnquiries); 
+    return; 
+  }
+  el.innerHTML='<div style="padding:1rem;color:var(--text3);font-size:13px">Loading enquiries...</div>';
+  db.collection('enquiries').orderBy('createdAt','desc').onSnapshot(snapshot=>{
+    renderAdmEnquiriesTable(snapshot.docs.map(d=>({id:d.id,...d.data()})));
+  }, err=>{
+    el.innerHTML='<p style="color:red;font-size:13px">Error: '+err.message+'</p>';
+  });
+}
+
+function renderAdmEnquiriesTable(enqs){
+  const el=document.getElementById('adm-enq-list');
+  if(!el) return;
   document.getElementById('stat-enq').textContent=enqs.length;
-  if(!enqs.length){el.innerHTML='<p style="color:var(--text3)">No enquiries yet. They\'ll appear here when customers submit the form.</p>';return;}
-  el.innerHTML=`<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Project</th><th>Message</th><th>Date</th></tr></thead><tbody>${enqs.map(e=>`<tr><td><strong style="color:var(--text)">${e.name||''}</strong></td><td><a href="tel:${e.phone}" style="color:var(--maroon);text-decoration:none;font-weight:600">${e.phone||''}</a></td><td style="font-size:11.5px">${e.email||'–'}</td><td style="font-size:11.5px">${e.project||'–'}</td><td style="font-size:11.5px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.message||'–'}</td><td style="font-size:11px;color:var(--text3)">${e.createdAt?new Date(e.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'–'}</td></tr>`).join('')}</tbody></table></div>`;
-  if(!DEMO)db.collection('enquiries').orderBy('createdAt','desc').onSnapshot(s=>{const enqs=s.docs.map(d=>({id:d.id,...d.data()}));document.getElementById('stat-enq').textContent=enqs.length;});
+  if(!enqs.length){
+    el.innerHTML='<p style="color:var(--text3);padding:1rem 0;font-size:14px">No enquiries yet.</p>';
+    return;
+  }
+  const rows=enqs.map(e=>'<tr><td><strong style="color:var(--text)">'+( e.name||'')+
+    '</strong></td><td><a href="tel:'+(e.phone||'')+'" style="color:var(--maroon);text-decoration:none;font-weight:600">'+(e.phone||'')+'</a></td>'+
+    '<td style="font-size:11.5px">'+(e.email||'–')+'</td>'+
+    '<td style="font-size:11.5px">'+(e.project||'–')+'</td>'+
+    '<td style="font-size:11.5px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(e.message||'–')+'</td>'+
+    '<td style="font-size:11px;color:var(--text3)">'+(e.createdAt?new Date(e.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'–')+'</td></tr>'
+  ).join('');
+  el.innerHTML='<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Project</th><th>Message</th><th>Date</th></tr></thead><tbody>'+rows+'</tbody></table><p style="font-size:12px;color:var(--text3);margin-top:.75rem">Total: <strong style="color:var(--maroon)">'+enqs.length+'</strong> enquiries</p></div>';
 }
 
 
