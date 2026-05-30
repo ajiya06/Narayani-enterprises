@@ -991,7 +991,7 @@ const firebaseConfig = {
   appId: "1:430088179558:web:76230cae64926e846cc2a7",
   measurementId: "G-EWB520ZN2Y"
 };
-const DEMO = firebaseConfig.apiKey === "AIzaSyCRzBzCSGAMxdeJjo-YGNiZQ_8lBuzyMvk";
+const DEMO = false;
 let db, auth;
 if (!DEMO) { firebase.initializeApp(firebaseConfig); db=firebase.firestore(); auth=firebase.auth(); }
 
