@@ -1137,11 +1137,44 @@ function closeMob(){document.getElementById('mob-menu').classList.remove('open')
 
 // ── ADMIN ──
 function openAdmin(){document.getElementById('admin-login-modal').classList.add('open');}
+function openAdminPanel(userLabel){
+  document.getElementById('admin-login-modal').classList.remove('open');
+  document.getElementById('admin-overlay').style.display='block';
+  document.getElementById('adm-user').textContent=userLabel;
+  loadAdmProjects();
+  loadAdmEnquiries();
+  loadAdmReviews();
+}
+
 function doLogin(){
-  const e=document.getElementById('lg-email').value,p=document.getElementById('lg-pass').value;
+  const e=document.getElementById('lg-email').value.trim();
+  const p=document.getElementById('lg-pass').value;
   document.getElementById('login-err').style.display='none';
-  if(DEMO){if(e==='admin@narayani.com'&&p==='narayani2025'){document.getElementById('admin-login-modal').classList.remove('open');document.getElementById('admin-overlay').style.display='block';document.getElementById('adm-user').textContent=e;loadAdmProjects();loadAdmEnquiries();}else document.getElementById('login-err').style.display='block';return;}
-  auth.signInWithEmailAndPassword(e,p).then(u=>{document.getElementById('admin-login-modal').classList.remove('open');document.getElementById('admin-overlay').style.display='block';document.getElementById('adm-user').textContent=u.user.email;loadAdmProjects();loadAdmEnquiries();}).catch(()=>document.getElementById('login-err').style.display='block');
+
+  if(!e || !p){
+    document.getElementById('login-err').textContent='Please enter email and password.';
+    document.getElementById('login-err').style.display='block';
+    return;
+  }
+
+  if(DEMO){
+    document.getElementById('login-err').textContent='Firebase not configured. Please add your Firebase credentials.';
+    document.getElementById('login-err').style.display='block';
+    return;
+  }
+
+  // Firebase Auth only
+  auth.signInWithEmailAndPassword(e, p)
+    .then(u => { openAdminPanel(u.user.email); })
+    .catch(err => {
+      let msg = 'Invalid email or password.';
+      if(err.code === 'auth/user-not-found') msg = 'No account found with this email.';
+      if(err.code === 'auth/wrong-password') msg = 'Wrong password. Please try again.';
+      if(err.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later.';
+      if(err.code === 'auth/invalid-email') msg = 'Invalid email format.';
+      document.getElementById('login-err').textContent = msg;
+      document.getElementById('login-err').style.display='block';
+    });
 }
 function doLogout(){document.getElementById('admin-overlay').style.display='none';if(!DEMO)auth.signOut();}
 function switchAdmTab(id,btn){document.querySelectorAll('.adm-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.adm-tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
