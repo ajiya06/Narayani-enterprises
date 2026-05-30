@@ -368,7 +368,7 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase Configuration - REPLACE WITH YOUR CONFIG
         const firebaseConfig = {
@@ -453,16 +453,36 @@
         // Load Projects in Real-time
         function loadProjects() {
             const projectsRef = collection(db, 'projects');
-            const q = query(projectsRef, orderBy('createdAt', 'desc'));
 
-            onSnapshot(q, (snapshot) => {
+            // NOTE: No orderBy to avoid Firestore index errors
+            // Projects from both admin.html and index.html will show
+            onSnapshot(projectsRef, (snapshot) => {
                 allProjects = [];
                 snapshot.forEach((doc) => {
                     allProjects.push({ id: doc.id, ...doc.data() });
                 });
-                
+
+                // Sort by createdAt client-side (handles both string & Timestamp formats)
+                allProjects.sort((a, b) => {
+                    const getTime = (v) => {
+                        if (!v) return 0;
+                        if (typeof v === 'string') return new Date(v).getTime();
+                        if (v.toDate) return v.toDate().getTime(); // Firestore Timestamp
+                        return 0;
+                    };
+                    return getTime(b.createdAt) - getTime(a.createdAt);
+                });
+
                 displayProjects();
                 updateStats();
+
+            }, (error) => {
+                console.error('Firestore error:', error);
+                projectsTableBody.innerHTML = `
+                    <tr><td colspan="5" class="px-6 py-8 text-center text-red-500">
+                        <i class="fas fa-exclamation-circle text-3xl mb-2 block"></i>
+                        Error loading projects: ${error.message}
+                    </td></tr>`;
             });
         }
 
@@ -478,30 +498,38 @@
             projectsTableBody.innerHTML = '';
 
             allProjects.forEach((project) => {
+                // Support both imageUrl (admin.html) and image (index.html) field names
+                const imgSrc = project.imageUrl || project.image || 'https://via.placeholder.com/64x64?text=No+Img';
+
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="px-6 py-4">
                         <div class="flex items-center space-x-3">
-                            <img src="${project.imageUrl}" alt="${project.title}" class="w-16 h-16 rounded-lg object-cover">
+                            <img src="${imgSrc}" alt="${project.title||''}"
+                                class="w-16 h-16 rounded-lg object-cover border border-gray-200"
+                                onerror="this.src='https://via.placeholder.com/64x64?text=No+Img'">
                             <div>
-                                <p class="font-semibold text-gray-900">${project.title}</p>
-                                <p class="text-sm text-gray-600">${project.bhk} BHK - ${project.size} SqFt</p>
+                                <p class="font-semibold text-gray-900">${project.title||'—'}</p>
+                                <p class="text-sm text-gray-600">${project.bhk||''} BHK &nbsp;·&nbsp; ${project.size||''} SqFt</p>
+                                <p class="text-xs text-gray-400 mt-1">${project.category||'current'}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-700">${project.location}</td>
-                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">${project.price}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">${project.location||'—'}</td>
+                    <td class="px-6 py-4 text-sm font-bold text-gray-900">${project.price||'—'}</td>
                     <td class="px-6 py-4">
                         <span class="status-badge status-${project.status}">${getStatusLabel(project.status)}</span>
                     </td>
                     <td class="px-6 py-4">
-                        <div class="flex space-x-2">
-                            <button onclick="editProject('${project.id}')" class="text-blue-600 hover:text-blue-800 font-semibold">
-                                <i class="fas fa-edit mr-1"></i> Edit
+                        <div class="flex space-x-3">
+                            <button onclick="editProject('${project.id}')"
+                                class="flex items-center gap-1 bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
+                                <i class="fas fa-edit"></i> Edit
                             </button>
-                            <button onclick="deleteProject('${project.id}', '${project.title}')" class="text-red-600 hover:text-red-800 font-semibold">
-                                <i class="fas fa-trash mr-1"></i> Delete
+                            <button onclick="deleteProject('${project.id}', '${(project.title||'').replace(/'/g,"\\\'")}')"
+                                class="flex items-center gap-1 bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
+                                <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
                     </td>
@@ -558,7 +586,8 @@
                 size: document.getElementById('project-size').value,
                 price: document.getElementById('project-price').value,
                 status: document.getElementById('project-status').value,
-                imageUrl: document.getElementById('project-image').value,
+                imageUrl: document.getElementById('project-image').value,  // admin.html uses imageUrl
+                image: document.getElementById('project-image').value,     // index.html uses image
                 amenities: document.getElementById('project-amenities').value,
                 updatedAt: serverTimestamp()
             };
@@ -592,13 +621,14 @@
             editingProjectId = projectId;
             modalTitle.textContent = 'Edit Project';
             
-            document.getElementById('project-title').value = project.title;
-            document.getElementById('project-location').value = project.location;
-            document.getElementById('project-bhk').value = project.bhk;
-            document.getElementById('project-size').value = project.size;
-            document.getElementById('project-price').value = project.price;
-            document.getElementById('project-status').value = project.status;
-            document.getElementById('project-image').value = project.imageUrl;
+            document.getElementById('project-title').value = project.title || '';
+            document.getElementById('project-location').value = project.location || '';
+            document.getElementById('project-bhk').value = project.bhk || '';
+            document.getElementById('project-size').value = project.size || '';
+            document.getElementById('project-price').value = project.price || '';
+            document.getElementById('project-status').value = project.status || '';
+            // Support both imageUrl (admin) and image (index.html) field
+            document.getElementById('project-image').value = project.imageUrl || project.image || '';
             document.getElementById('project-amenities').value = project.amenities || '';
             
             projectModal.classList.add('active');
