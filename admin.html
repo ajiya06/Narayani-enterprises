@@ -365,290 +365,56 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+   <script type="module">
+    // 1. Firebase V9 ke imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase Configuration - REPLACE WITH YOUR CONFIG
-     const firebaseConfig = {
-  apiKey: "AIzaSyCRzBzCSGAMxdeJjo-YGNiZQ_8lBuzyMvk",
-  authDomain: "rayani-enterprises.firebaseapp.com",
-  projectId: "rayani-enterprises",
-  storageBucket: "rayani-enterprises.firebasestorage.app",
-  messagingSenderId: "430088179558",
-  appId: "1:430088179558:web:76230cae64926e846cc2a7",
-  measurementId: "G-EWB520ZN2Y"
-};
+    // 2. Apna Firebase Config yahan daalein (Apni asli keys ke sath)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCRzBzCSGAMxdeJjo-YGNiZQ_8lBuzyMvk",  // Apni asli key daalein
+        authDomain: "narayani-app.firebaseapp.com",       // Apna domain daalein
+        projectId: "narayani-app",                        // Apna project ID daalein
+        storageBucket: "narayani-app.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456789:web:abcd1234"
+    };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    // 3. Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        // DOM Elements
-        const loginScreen = document.getElementById('login-screen');
-        const dashboard = document.getElementById('dashboard');
-        const loginForm = document.getElementById('login-form');
-        const loginError = document.getElementById('login-error');
-        const logoutBtn = document.getElementById('logout-btn');
-        const addProjectBtn = document.getElementById('add-project-btn');
-        const projectModal = document.getElementById('project-modal');
-        const projectForm = document.getElementById('project-form');
-        const closeModal = document.getElementById('close-modal');
-        const cancelModal = document.getElementById('cancel-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const projectsTableBody = document.getElementById('projects-table-body');
-        const noProjectsMsg = document.getElementById('no-projects-msg');
-
-        let allProjects = [];
-        let editingProjectId = null;
-
-        // Auth State Observer
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                showDashboard(user);
-            } else {
-                showLogin();
-            }
-        });
-
-        // Show Login Screen
-        function showLogin() {
-            loginScreen.classList.remove('hidden');
-            dashboard.classList.add('hidden');
-        }
-
-        // Show Dashboard
-        function showDashboard(user) {
-            loginScreen.classList.add('hidden');
-            dashboard.classList.remove('hidden');
-            document.getElementById('admin-user-email').textContent = user.email;
-            loadProjects();
-        }
-
-        // Login Handler
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('admin-email').value;
-            const password = document.getElementById('admin-password').value;
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                loginError.classList.add('hidden');
-            } catch (error) {
-                loginError.textContent = 'Invalid email or password. Please try again.';
-                loginError.classList.remove('hidden');
-            }
-        });
-
-        // Logout Handler
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-        });
-
-        // Load Projects in Real-time
-        function loadProjects() {
-            const projectsRef = collection(db, 'projects');
-
-            // NOTE: No orderBy to avoid Firestore index errors
-            // Projects from both admin.html and index.html will show
-            onSnapshot(projectsRef, (snapshot) => {
-                allProjects = [];
-                snapshot.forEach((doc) => {
-                    allProjects.push({ id: doc.id, ...doc.data() });
-                });
-
-                // Sort by createdAt client-side (handles both string & Timestamp formats)
-                allProjects.sort((a, b) => {
-                    const getTime = (v) => {
-                        if (!v) return 0;
-                        if (typeof v === 'string') return new Date(v).getTime();
-                        if (v.toDate) return v.toDate().getTime(); // Firestore Timestamp
-                        return 0;
-                    };
-                    return getTime(b.createdAt) - getTime(a.createdAt);
-                });
-
-                displayProjects();
-                updateStats();
-
-            }, (error) => {
-                console.error('Firestore error:', error);
-                projectsTableBody.innerHTML = `
-                    <tr><td colspan="5" class="px-6 py-8 text-center text-red-500">
-                        <i class="fas fa-exclamation-circle text-3xl mb-2 block"></i>
-                        Error loading projects: ${error.message}
-                    </td></tr>`;
-            });
-        }
-
-        // Display Projects in Table
-        function displayProjects() {
-            if (allProjects.length === 0) {
-                projectsTableBody.innerHTML = '';
-                noProjectsMsg.classList.remove('hidden');
-                return;
-            }
-
-            noProjectsMsg.classList.add('hidden');
-            projectsTableBody.innerHTML = '';
-
-            allProjects.forEach((project) => {
-                // Support both imageUrl (admin.html) and image (index.html) field names
-                const imgSrc = project.imageUrl || project.image || 'https://via.placeholder.com/64x64?text=No+Img';
-
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="px-6 py-4">
-                        <div class="flex items-center space-x-3">
-                            <img src="${imgSrc}" alt="${project.title||''}"
-                                class="w-16 h-16 rounded-lg object-cover border border-gray-200"
-                                onerror="this.src='https://via.placeholder.com/64x64?text=No+Img'">
-                            <div>
-                                <p class="font-semibold text-gray-900">${project.title||'—'}</p>
-                                <p class="text-sm text-gray-600">${project.bhk||''} BHK &nbsp;·&nbsp; ${project.size||''} SqFt</p>
-                                <p class="text-xs text-gray-400 mt-1">${project.category||'current'}</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-700">${project.location||'—'}</td>
-                    <td class="px-6 py-4 text-sm font-bold text-gray-900">${project.price||'—'}</td>
-                    <td class="px-6 py-4">
-                        <span class="status-badge status-${project.status}">${getStatusLabel(project.status)}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex space-x-3">
-                            <button onclick="editProject('${project.id}')"
-                                class="flex items-center gap-1 bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button onclick="deleteProject('${project.id}', '${(project.title||'').replace(/'/g,"\\\'")}')"
-                                class="flex items-center gap-1 bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </td>
-                `;
-                projectsTableBody.appendChild(row);
-            });
-        }
-
-        // Update Statistics
-        function updateStats() {
-            document.getElementById('total-projects').textContent = allProjects.length;
-            document.getElementById('ongoing-projects').textContent = allProjects.filter(p => p.status === 'ongoing').length;
-            document.getElementById('ready-projects').textContent = allProjects.filter(p => p.status === 'ready').length;
-            document.getElementById('sold-projects').textContent = allProjects.filter(p => p.status === 'sold').length;
-        }
-
-        // Get Status Label
-        function getStatusLabel(status) {
-            const labels = {
-                'sold': 'Sold Out',
-                'limited': 'Limited Flats',
-                'open': 'Booking Open',
-                'ongoing': 'Ongoing',
-                'ready': 'Ready to Move'
-            };
-            return labels[status] || status;
-        }
-
-        // Add Project Button
-        addProjectBtn.addEventListener('click', () => {
-            editingProjectId = null;
-            modalTitle.textContent = 'Add New Project';
-            projectForm.reset();
-            projectModal.classList.add('active');
-        });
-
-        // Close Modal
-        closeModal.addEventListener('click', () => {
-            projectModal.classList.remove('active');
-        });
-
-        cancelModal.addEventListener('click', () => {
-            projectModal.classList.remove('active');
-        });
-
-        // Project Form Submit
-        projectForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const projectData = {
-                title: document.getElementById('project-title').value,
-                location: document.getElementById('project-location').value,
-                bhk: document.getElementById('project-bhk').value,
-                size: document.getElementById('project-size').value,
-                price: document.getElementById('project-price').value,
-                status: document.getElementById('project-status').value,
-                imageUrl: document.getElementById('project-image').value,  // admin.html uses imageUrl
-                image: document.getElementById('project-image').value,     // index.html uses image
-                amenities: document.getElementById('project-amenities').value,
-                updatedAt: serverTimestamp()
-            };
-
-            try {
-                if (editingProjectId) {
-                    // Update existing project
-                    const projectRef = doc(db, 'projects', editingProjectId);
-                    await updateDoc(projectRef, projectData);
-                    alert('Project updated successfully!');
-                } else {
-                    // Add new project
-                    projectData.createdAt = serverTimestamp();
-                    await addDoc(collection(db, 'projects'), projectData);
-                    alert('Project added successfully!');
-                }
-                
-                projectModal.classList.remove('active');
-                projectForm.reset();
-            } catch (error) {
-                console.error('Error saving project:', error);
-                alert('Error saving project. Please try again.');
-            }
-        });
-
-        // Edit Project (Global function)
-        window.editProject = function(projectId) {
-            const project = allProjects.find(p => p.id === projectId);
-            if (!project) return;
-
-            editingProjectId = projectId;
-            modalTitle.textContent = 'Edit Project';
+    // 4. Login Form Logic
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('admin-email').value;
+        const password = document.getElementById('admin-password').value;
+        const errorDiv = document.getElementById('login-error');
+        
+        try {
+            // Asli Login code jo Firebase Auth ko connect karega
+            await signInWithEmailAndPassword(auth, email, password);
             
-            document.getElementById('project-title').value = project.title || '';
-            document.getElementById('project-location').value = project.location || '';
-            document.getElementById('project-bhk').value = project.bhk || '';
-            document.getElementById('project-size').value = project.size || '';
-            document.getElementById('project-price').value = project.price || '';
-            document.getElementById('project-status').value = project.status || '';
-            // Support both imageUrl (admin) and image (index.html) field
-            document.getElementById('project-image').value = project.imageUrl || project.image || '';
-            document.getElementById('project-amenities').value = project.amenities || '';
+            // Login Success: Screen change karo
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            errorDiv.classList.add('hidden');
             
-            projectModal.classList.add('active');
-        };
+            // Data load karne ka function (agar banaya hai) yahan call karein
+            // loadDashboardData(); 
+            
+        } catch (error) {
+            // Agar password galat hai ya user nahi hai, toh red box mein error dikhao
+            errorDiv.textContent = "Login Failed: " + error.message;
+            errorDiv.classList.remove('hidden');
+            console.error("Login Error:", error);
+        }
+    });
 
-        // Delete Project (Global function)
-        window.deleteProject = async function(projectId, projectTitle) {
-            if (!confirm(`Are you sure you want to delete "${projectTitle}"? This action cannot be undone.`)) {
-                return;
-            }
-
-            try {
-                await deleteDoc(doc(db, 'projects', projectId));
-                alert('Project deleted successfully!');
-            } catch (error) {
-                console.error('Error deleting project:', error);
-                alert('Error deleting project. Please try again.');
-            }
-        };
+    // Baaki ka aapka deleteProject ya data load karne ka code yahan niche rakhein...
+</script>
     </script>
 </body>
 </html>
