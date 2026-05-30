@@ -983,11 +983,15 @@ footer{background:var(--maroon3);margin-top:2rem;padding:2.5rem 1.5rem 1.25rem}
 <script>
 // ── FIREBASE CONFIG ── Replace with your credentials
 const firebaseConfig = {
-  apiKey:"YOUR_API_KEY", authDomain:"YOUR_PROJECT.firebaseapp.com",
-  projectId:"YOUR_PROJECT", storageBucket:"YOUR_PROJECT.appspot.com",
-  messagingSenderId:"YOUR_ID", appId:"YOUR_APP_ID"
+  apiKey: "AIzaSyCRzBzCSGAMxdeJjo-YGNiZQ_8lBuzyMvk",
+  authDomain: "rayani-enterprises.firebaseapp.com",
+  projectId: "rayani-enterprises",
+  storageBucket: "rayani-enterprises.firebasestorage.app",
+  messagingSenderId: "430088179558",
+  appId: "1:430088179558:web:76230cae64926e846cc2a7",
+  measurementId: "G-EWB520ZN2Y"
 };
-const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
+const DEMO = firebaseConfig.apiKey === "AIzaSyCRzBzCSGAMxdeJjo-YGNiZQ_8lBuzyMvk";
 let db, auth;
 if (!DEMO) { firebase.initializeApp(firebaseConfig); db=firebase.firestore(); auth=firebase.auth(); }
 
